@@ -1,11 +1,9 @@
-# PROJECT IMPORTS
-from func.src.domain.enums.status_code import InternalCode
-
 # STANDARD IMPORTS
 from json import dumps
-
-# THIRD PARTY IMPORTS
 from flask import Response
+
+# PROJECT IMPORTS
+from func.src.domain.enums.status_code.enum import InternalCode
 
 
 class ResponseModel:
