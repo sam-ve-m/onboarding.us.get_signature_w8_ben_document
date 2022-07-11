@@ -19,7 +19,7 @@ async def update_w8_ben_signature(
         request_body: Request = request,
 ):
     jwt_data = request_body.headers.get("x-thebes-answer")
-    payload = await JWTService.get_thebes_answer_from_request(jwt_data=jwt_data)
+    payload = await JWTService.decode_jwt_from_request(jwt_data=jwt_data)
     payload = {"x-thebes-answer": payload}
     payload.update(w8_form_confirmation.dict())
     try:

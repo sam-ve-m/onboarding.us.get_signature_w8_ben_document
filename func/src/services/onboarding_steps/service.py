@@ -26,7 +26,7 @@ class UserOnBoardingStepsService:
         unique_id = payload["user"]["unique_id"]
         return unique_id
 
-    # TODO - once the on boarding steps fissions were implemented, substitute the services for a layer
+    # TODO - once the on boarding steps fissions were implemented, replace the services for a layer
     @classmethod
     async def onboarding_user_current_step_br(
             cls, payload: dict

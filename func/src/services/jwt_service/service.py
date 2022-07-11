@@ -10,7 +10,7 @@ from func.src.domain.exceptions.exceptions import ErrorOnDecodeJwt
 class JWTService:
 
     @classmethod
-    async def get_thebes_answer_from_request(cls, jwt_data: str):
+    async def decode_jwt_from_request(cls, jwt_data: str):
         try:
             jwt_content, heimdall_status_response = await Heimdall.decode_payload(jwt=jwt_data)
             if HeimdallStatusResponses.SUCCESS == heimdall_status_response:
