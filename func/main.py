@@ -1,6 +1,6 @@
 # STANDARD IMPORTS
 from http import HTTPStatus
-from flask import Request, request, Response, Flask
+from aioflask import Flask, request, Response, Request
 
 from etria_logger import Gladsheim
 from func.src.domain.enums.status_code.enum import InternalCode
@@ -15,14 +15,16 @@ app = Flask(__name__)
 
 @app.route('/update_w8_ben_signature')
 async def update_w8_ben_signature(
-        w8_form_confirmation: W8FormConfirmation,
         request_body: Request = request,
 ):
-    jwt_data = request_body.headers.get("x-thebes-answer")
-    payload = await JWTService.decode_jwt_from_request(jwt_data=jwt_data)
-    payload = {"x-thebes-answer": payload}
-    payload.update(w8_form_confirmation.dict())
+    raw_params = request.json
+
     try:
+        w8_confirmation_param = W8FormConfirmation(**raw_params).dict()
+        jwt_data = request_body.headers.get("x-thebes-answer")
+        payload = await JWTService.decode_jwt_from_request(jwt_data=jwt_data)
+        payload = {"x-thebes-answer": payload}
+        payload.update(w8_confirmation_param)
         response = await W8DocumentService.update_w8_form_confirmation(payload=payload)
         return response
 
