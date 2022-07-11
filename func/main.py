@@ -1,6 +1,9 @@
 import asyncio
+
+from flask import Request
 from persephone_client import Persephone
 from func.src.domain.exceptions.exceptions import InternalServerError
+from func.src.domain.validators.validator import W8FormConfirmation
 
 
 async def put_w8_form_confirmation(
