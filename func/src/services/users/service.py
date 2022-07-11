@@ -1,10 +1,14 @@
+# STANDARD IMPORTS
 import asyncio
 from typing import List
-
-from persephone_client import Persephone
 from fastapi import status
-from func.src.domain.exceptions.exceptions import BadRequestError, InternalServerError
+
+# THIRD PARTY IMPORTS
+from persephone_client import Persephone
 from func.src.domain.persephone_queue.persephone_queue import PersephoneQueue
+
+# PROJECT IMPORTS
+from func.src.domain.exceptions.exceptions import BadRequestError, InternalServerError
 from func.src.infrastructure.env_config import config
 from func.src.repositories.file.enum.user_file import UserFileType
 from func.src.repositories.file.repository import FileRepository
@@ -21,33 +25,38 @@ class UserService:
     file_repository = FileRepository
 
     @classmethod
+    def __extract_unique_id(cls, payload: dict):
+        x_thebes_answer = payload.get("x-thebes-answer")
+        unique_id = x_thebes_answer["user"]["unique_id"]
+        return unique_id
+
+    @classmethod
     async def onboarding_user_current_step_br(
         cls, payload: dict
     ) -> dict:
         onboarding_step_builder = OnboardingStepBuilderBR()
-        x_thebes_answer = payload.get("x-thebes-answer")
-        user_unique_id = x_thebes_answer["user"]["unique_id"]
+        unique_id = cls.__extract_unique_id(payload=payload)
 
         user_file_exists = await cls.file_repository.user_file_exists(
             file_type=UserFileType.SELFIE,
-            unique_id=user_unique_id,
+            unique_id=unique_id,
             bucket_name=config("AWS_BUCKET_USERS_FILES"),
         )
         user_document_front_exists = cls.file_repository.user_file_exists(
             file_type=UserFileType.DOCUMENT_FRONT,
-            unique_id=user_unique_id,
+            unique_id=unique_id,
             bucket_name=config("AWS_BUCKET_USERS_FILES"),
         )
         user_document_back_exists = cls.file_repository.user_file_exists(
             file_type=UserFileType.DOCUMENT_BACK,
-            unique_id=user_unique_id,
+            unique_id=unique_id,
             bucket_name=config("AWS_BUCKET_USERS_FILES"),
         )
         user_document_exists = all(
             await asyncio.gather(user_document_front_exists, user_document_back_exists)
         )
 
-        current_user = await cls.user_repository.find_one({"unique_id": user_unique_id})
+        current_user = await cls.user_repository.find_one({"unique_id": unique_id})
         if current_user is None:
             raise BadRequestError("common.register_not_exists")
 
@@ -133,10 +142,11 @@ class UserService:
 
     @classmethod
     async def update_w8_form_confirmation(
-            payload: dict) -> dict:
+            cls, payload: dict) -> dict:
         thebes_answer = payload["x-thebes-answer"]
         thebes_answer_user = thebes_answer["user"]
         user_w8_form_confirmation = payload["w8_confirmation"]
+
         br_step_validator = UserService.onboarding_br_step_validator(
             payload=payload, onboard_step=["finishefinishedd"]
         )
