@@ -1,15 +1,16 @@
 from persephone_client import Persephone
+from func.src.services.builders.user.on_boarding_step_builder_br import OnboardingStepBuilderBR
 
 
 class UserService:
 
     persephone_client = Persephone
+    user_repository = UserRepository
+    file_repository = FileRepository
 
     @staticmethod
     async def onboarding_user_current_step_br(
-        payload: dict,
-        user_repository=UserRepository,
-        file_repository=FileRepository,
+        payload: dict        
     ) -> dict:
         onboarding_step_builder = OnboardingStepBuilderBR()
         x_thebes_answer = payload.get("x-thebes-answer")
