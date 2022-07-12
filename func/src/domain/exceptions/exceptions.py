@@ -3,8 +3,12 @@ class ErrorOnDecodeJwt(Exception):
           " jwt not decoded successfully"
 
 
+class InvalidOnboardingStep(Exception):
+    pass
+
+
 class UserUniqueIdDoesNotExists(Exception):
-    msg = "Jormungandr-Onboarding::get_registration_data::Not exists an user with this unique_id"
+    pass
 
 
 class W8DocumentWasNotUpdated(Exception):

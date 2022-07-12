@@ -7,7 +7,7 @@ from fastapi import status
 from persephone_client import Persephone
 
 # PROJECT IMPORTS
-from func.src.domain.exceptions.exceptions import BadRequestError
+from func.src.domain.exceptions.exceptions import BadRequestError, UserUniqueIdDoesNotExists, InvalidOnboardingStep
 from func.src.infrastructure.env_config import config
 from func.src.repositories.file.enum.user_file import UserFileType
 from func.src.repositories.file.repository import FileRepository
@@ -20,11 +20,6 @@ class UserOnBoardingStepsService:
     persephone_client = Persephone
     user_repository = UserRepository
     file_repository = FileRepository
-
-    @classmethod
-    def __extract_unique_id(cls, payload: dict):
-        unique_id = payload["user"]["unique_id"]
-        return unique_id
 
     # TODO - once the on boarding steps fissions were implemented, replace the services for a layer
     @classmethod
@@ -54,7 +49,8 @@ class UserOnBoardingStepsService:
 
         current_user = await cls.user_repository.find_one({"unique_id": unique_id})
         if current_user is None:
-            raise BadRequestError("common.register_not_exists")
+            raise UserUniqueIdDoesNotExists(
+                "common.process.issue::onboarding_user_current_step_br::user_repository.find_one::user_does_exists")
 
         onboarding_steps = await (
             onboarding_step_builder.user_suitability_step(current_user=current_user)
@@ -69,7 +65,10 @@ class UserOnBoardingStepsService:
                 .build()
         )
 
-        return {"status_code": status.HTTP_200_OK, "payload": onboarding_steps}
+        return {
+            "status_code": status.HTTP_200_OK,
+            "payload": onboarding_steps
+        }
 
     @classmethod
     async def onboarding_user_current_step_us(
@@ -110,7 +109,10 @@ class UserOnBoardingStepsService:
                 .build()
         )
 
-        return {"status_code": status.HTTP_200_OK, "payload": onboarding_steps}
+        return {
+            "status_code": status.HTTP_200_OK,
+            "payload": onboarding_steps
+        }
 
     @classmethod
     async def onboarding_us_step_validator(
@@ -123,7 +125,9 @@ class UserOnBoardingStepsService:
             "current_onboarding_step"
         )
         if current_onboarding_step not in onboard_step:
-            raise BadRequestError("user.invalid_on_boarding_step")
+            raise InvalidOnboardingStep(
+                "common.process.issue::onboarding_us_step_validator::user.invalid_on_boarding_step"
+            )
 
     @staticmethod
     async def onboarding_br_step_validator(unique_id: str, onboard_step: List[str]):
@@ -133,4 +137,6 @@ class UserOnBoardingStepsService:
             "current_onboarding_step"
         )
         if current_onboarding_step not in onboard_step:
-            raise BadRequestError("user.invalid_on_boarding_step")
+            raise InvalidOnboardingStep(
+                "common.process.issue::onboarding_br_step_validator::user.invalid_on_boarding_step"
+            )
