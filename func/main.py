@@ -23,16 +23,18 @@ async def update_w8_ben_signature(
     raw_params = request.json
     w8_confirmation_param = W8FormConfirmation(**raw_params).dict()
     jwt_data = request_body.headers.get("x-thebes-answer")
+    thebes_answer = await JWTService.decode_jwt_from_request(jwt_data=jwt_data)
+    payload = {"x-thebes-answer": thebes_answer}
+    payload.update(w8_confirmation_param)
 
     try:
-        thebes_answer = await JWTService.decode_jwt_from_request(jwt_data=jwt_data)
-        payload = {"x-thebes-answer": thebes_answer}
-        payload.update(w8_confirmation_param)
         service_response = await W8DocumentService.update_w8_form_confirmation(payload=payload)
-        response = ResponseModel.build_http_response(
-            response_model=service_response,
-            status=HTTPStatus.OK
-        )
+        response = ResponseModel(
+            success=True,
+            code=InternalCode.SUCCESS,
+            message="The W8 Form Was Updated Successfully",
+            result=service_response
+        ).build_http_response(status=HTTPStatus.OK)
         return response
 
     except InvalidParams as error:
@@ -60,14 +62,6 @@ async def update_w8_ben_signature(
             code=InternalCode.WAS_NOT_SENT_TO_PERSEPHONE,
             message="update_w8_form_confirmation::sent_to_persephone:false"
         ).build_http_response(status=HTTPStatus.UNAUTHORIZED)
-        return response
-
-    except ValueError:
-        response = ResponseModel(
-            success=False,
-            code=InternalCode.INVALID_PARAMS,
-            message="Invalid params"
-        ).build_http_response(status=HTTPStatus.BAD_REQUEST)
         return response
 
     except Exception as ex:

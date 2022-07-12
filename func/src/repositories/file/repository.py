@@ -1,4 +1,4 @@
-# STANDARD LIBS
+# STANDARD IMPORTS
 from base64 import b64decode, b64encode
 from enum import Enum
 from io import BytesIO
@@ -6,7 +6,7 @@ from typing import Union, Optional
 from aiohttp import ClientSession
 
 
-# OUTSIDE LIBRARIES
+# PROJECT IMPORTS
 from func.src.domain.exceptions.exceptions import InternalServerError
 from func.src.infrastructure.s3.infrastructure import S3Infrastructure
 from func.src.repositories.cache.repository import RepositoryRedis

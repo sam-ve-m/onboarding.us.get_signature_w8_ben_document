@@ -5,6 +5,8 @@ from flask import Response
 # PROJECT IMPORTS
 from func.src.domain.enums.status_code.enum import InternalCode
 
+from nidavellir import Sindri
+
 
 class ResponseModel:
     def __init__(
@@ -27,33 +29,19 @@ class ResponseModel:
                 "message": self.message,
                 "success": self.success,
                 "code": self.code,
-            }
+            },
+            default=Sindri.resolver
         )
 
         self.response = response_model
         return response_model
 
-    @staticmethod
-    def build_response(
-            success: bool, code: InternalCode, message: str = None, result: any = None
-    ):
-        response_model = dumps(
-            {
-                "result": result,
-                "message": message,
-                "success": success,
-                "code": code.value,
-            }
-        )
-        return response_model
-
-    @staticmethod
     def build_http_response(
-            status: int, response_model: str = None, mimetype: str = "application/json"
+            self, status: int, mimetype: str = "application/json"
     ) -> Response:
-        response = Response(
-            response_model,
+        http_response = Response(
+            self.response,
             mimetype=mimetype,
             status=status,
         )
-        return response
+        return http_response

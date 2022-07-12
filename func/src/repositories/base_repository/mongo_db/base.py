@@ -4,7 +4,6 @@ from etria_logger import Gladsheim
 from datetime import datetime
 
 # OUTSIDE LIBRARIES
-from pymongo.cursor import Cursor
 from nidavellir import Sindri
 
 # Sphinx
