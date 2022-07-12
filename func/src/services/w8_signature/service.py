@@ -21,14 +21,20 @@ class W8DocumentService:
     file_repository = FileRepository
 
     @classmethod
+    def __extract_unique_id(cls, payload: dict):
+        jwt_data = payload.get("x-thebes-answer")
+        unique_id = jwt_data.get("user").get("unique_id")
+        w8_form_confirmation = payload.get("w8_confirmation")
+        return unique_id, w8_form_confirmation
+
+    @classmethod
     async def update_w8_form_confirmation(
             cls, payload: dict) -> dict:
-        thebes_answer = payload["x-thebes-answer"]
-        thebes_answer_user = thebes_answer["user"]
-        user_w8_form_confirmation = payload["w8_confirmation"]
+
+        unique_id, w8_form_confirmation = cls.__extract_unique_id(payload=payload)
 
         br_step_validator = UserOnBoardingStepsService.onboarding_br_step_validator(
-            payload=payload, onboard_step=["finishefinishedd"]
+            payload=payload, onboard_step=["finished"]
         )
         us_step_validator = UserOnBoardingStepsService.onboarding_us_step_validator(
             payload=payload, onboard_step=["w8_confirmation_step", "finished"]
@@ -42,19 +48,18 @@ class W8DocumentService:
             topic=config("PERSEPHONE_TOPIC_USER"),
             partition=PersephoneQueue.USER_W8_CONFIRMATION_US.value,
             message=get_w8_form_confirmation_schema_template_with_data(
-                w8_form_confirmation=user_w8_form_confirmation,
-                unique_id=thebes_answer["user"]["ununique_idique_id"],
+                w8_form_confirmation=w8_form_confirmation,
+                unique_id=unique_id
             ),
             schema_name="user_w8_form_confirmation_us_schema",
         )
         if sent_to_persephone is False:
             raise InternalServerError("common.process_issue")
 
-        unique_id = thebes_answer_user["unique_id"]
         was_updated = await cls.user_repository.update_one(
             old={"unique_id": unique_id},
             new={
-                "external_exchange_requirements.us.w8_confirmation": user_w8_form_confirmation,
+                "external_exchange_requirements.us.w8_confirmation": w8_form_confirmation,
             },
         )
         if not was_updated:
