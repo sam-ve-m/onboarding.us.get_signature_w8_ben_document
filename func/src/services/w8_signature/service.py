@@ -7,7 +7,7 @@ from persephone_client import Persephone
 from func.src.domain.persephone_queue.persephone_queue import PersephoneQueue
 
 # PROJECT IMPORTS
-from func.src.domain.exceptions.exceptions import InternalServerError
+from func.src.domain.exceptions.exceptions import W8DocumentWasNotUpdated, WasNotSentToPersephone
 from func.src.infrastructure.env_config import config
 from func.src.repositories.file.repository import FileRepository
 from func.src.repositories.user.repository import UserRepository
@@ -32,10 +32,10 @@ class W8DocumentService:
 
         unique_id, w8_form_confirmation = cls.__extract_unique_id(payload=payload)
 
-        br_step_validator = await UserOnBoardingStepsService.onboarding_br_step_validator(
+        br_step_validator = UserOnBoardingStepsService.onboarding_br_step_validator(
             unique_id=unique_id, onboard_step=["finished"]
         )
-        us_step_validator = await UserOnBoardingStepsService.onboarding_us_step_validator(
+        us_step_validator = UserOnBoardingStepsService.onboarding_us_step_validator(
             unique_id=unique_id, onboard_step=["w8_confirmation_step", "finished"]
         )
         await asyncio.gather(br_step_validator, us_step_validator)
@@ -53,7 +53,9 @@ class W8DocumentService:
             schema_name="user_w8_form_confirmation_us_schema",
         )
         if sent_to_persephone is False:
-            raise InternalServerError("common.process_issue")
+            raise WasNotSentToPersephone(
+                "common.process_issue::W8DocumentService::update_w8_form_confirmation::sent_to_persephone:false"
+            )
 
         was_updated = await cls.user_repository.update_one(
             old={"unique_id": unique_id},
@@ -62,9 +64,12 @@ class W8DocumentService:
             },
         )
         if not was_updated:
-            raise InternalServerError("common.unable_to_process")
-
-        return {
+            raise W8DocumentWasNotUpdated(
+                "common.unable_to_process::W8DocumentService::update_w8_form_confirmation::was_updated::false"
+            )
+        response = {
             "status_code": status.HTTP_200_OK,
             "message_key": "requests.updated",
         }
+
+        return response

@@ -7,6 +7,14 @@ class UserUniqueIdDoesNotExists(Exception):
     msg = "Jormungandr-Onboarding::get_registration_data::Not exists an user with this unique_id"
 
 
+class W8DocumentWasNotUpdated(Exception):
+    pass
+
+
+class WasNotSentToPersephone(Exception):
+    pass
+
+
 class InternalServerError(Exception):
     pass
 
