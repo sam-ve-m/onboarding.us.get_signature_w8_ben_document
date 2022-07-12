@@ -22,8 +22,7 @@ class W8DocumentService:
 
     @classmethod
     def __extract_unique_id(cls, payload: dict):
-        jwt_data = payload.get("x-thebes-answer")
-        unique_id = jwt_data.get("user").get("unique_id")
+        unique_id = payload.get("x-thebes-answer").get("user").get("unique_id")
         w8_form_confirmation = payload.get("w8_confirmation")
         return unique_id, w8_form_confirmation
 
@@ -33,11 +32,11 @@ class W8DocumentService:
 
         unique_id, w8_form_confirmation = cls.__extract_unique_id(payload=payload)
 
-        br_step_validator = UserOnBoardingStepsService.onboarding_br_step_validator(
-            payload=payload, onboard_step=["finished"]
+        br_step_validator = await UserOnBoardingStepsService.onboarding_br_step_validator(
+            unique_id=unique_id, onboard_step=["finished"]
         )
-        us_step_validator = UserOnBoardingStepsService.onboarding_us_step_validator(
-            payload=payload, onboard_step=["w8_confirmation_step", "finished"]
+        us_step_validator = await UserOnBoardingStepsService.onboarding_us_step_validator(
+            unique_id=unique_id, onboard_step=["w8_confirmation_step", "finished"]
         )
         await asyncio.gather(br_step_validator, us_step_validator)
 

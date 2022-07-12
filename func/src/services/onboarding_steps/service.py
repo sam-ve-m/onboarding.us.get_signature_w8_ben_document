@@ -29,10 +29,9 @@ class UserOnBoardingStepsService:
     # TODO - once the on boarding steps fissions were implemented, replace the services for a layer
     @classmethod
     async def onboarding_user_current_step_br(
-            cls, payload: dict
+            cls, unique_id: str
     ) -> dict:
         onboarding_step_builder = OnboardingStepBuilderBR()
-        unique_id = cls.__extract_unique_id(payload=payload)
 
         user_file_exists = await cls.file_repository.user_file_exists(
             file_type=UserFileType.SELFIE,
@@ -75,12 +74,12 @@ class UserOnBoardingStepsService:
     @classmethod
     async def onboarding_user_current_step_us(
             cls,
-            payload: dict
+            unique_id: str
     ) -> dict:
         onboarding_step_builder = OnboardingStepBuilderUS()
-        unique_id = cls.__extract_unique_id(payload=payload)
 
         current_user = await cls.user_repository.find_one({"unique_id": unique_id})
+
         if current_user is None:
             raise BadRequestError("common.register_not_exists")
 
@@ -116,9 +115,9 @@ class UserOnBoardingStepsService:
     @classmethod
     async def onboarding_us_step_validator(
             cls,
-            payload: dict,
+            unique_id: str,
             onboard_step: List[str]):
-        onboarding_steps = await cls.onboarding_user_current_step_us(payload)
+        onboarding_steps = await cls.onboarding_user_current_step_us(unique_id=unique_id)
         payload_from_onboarding_steps = onboarding_steps.get("payload")
         current_onboarding_step = payload_from_onboarding_steps.get(
             "current_onboarding_step"
@@ -127,8 +126,8 @@ class UserOnBoardingStepsService:
             raise BadRequestError("user.invalid_on_boarding_step")
 
     @staticmethod
-    async def onboarding_br_step_validator(payload: dict, onboard_step: List[str]):
-        onboarding_steps = await UserOnBoardingStepsService.onboarding_user_current_step_br(payload)
+    async def onboarding_br_step_validator(unique_id: str, onboard_step: List[str]):
+        onboarding_steps = await UserOnBoardingStepsService.onboarding_user_current_step_br(unique_id)
         payload_from_onboarding_steps = onboarding_steps.get("payload")
         current_onboarding_step = payload_from_onboarding_steps.get(
             "current_onboarding_step"
