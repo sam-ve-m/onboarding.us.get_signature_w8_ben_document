@@ -16,7 +16,7 @@ app = Flask(__name__)
 @app.route('/update_w8_ben_signature')
 async def update_w8_ben_signature(
         request_body: Request = request,
-):
+) -> Response:
     raw_params = request.json
     w8_confirmation_param = W8FormConfirmation(**raw_params).dict()
     jwt_data = request_body.headers.get("x-thebes-answer")
@@ -25,7 +25,11 @@ async def update_w8_ben_signature(
         thebes_answer = await JWTService.decode_jwt_from_request(jwt_data=jwt_data)
         payload = {"x-thebes-answer": thebes_answer}
         payload.update(w8_confirmation_param)
-        response = await W8DocumentService.update_w8_form_confirmation(payload=payload)
+        service_response = await W8DocumentService.update_w8_form_confirmation(payload=payload)
+        response = ResponseModel.build_http_response(
+            response_model=service_response,
+            status=HTTPStatus.OK
+        )
         return response
 
     except ErrorOnDecodeJwt as error:

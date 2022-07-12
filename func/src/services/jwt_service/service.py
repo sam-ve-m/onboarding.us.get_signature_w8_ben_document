@@ -14,7 +14,7 @@ class JWTService:
         try:
             jwt_content, heimdall_status_response = await Heimdall.decode_payload(jwt=jwt_data)
             if HeimdallStatusResponses.SUCCESS == heimdall_status_response:
-                payload = jwt_content["decoded_jwt"]
+                payload = jwt_content.get("decoded_jwt")
                 return payload
             raise ErrorOnDecodeJwt
 

@@ -33,16 +33,27 @@ class ResponseModel:
         self.response = response_model
         return response_model
 
-    def build_http_response(
-            self,
-            status: int,
-            mimetype: str = "application/json"
-    ) -> Response:
+    @staticmethod
+    def build_response(
+            success: bool, code: InternalCode, message: str = None, result: any = None
+    ):
+        response_model = dumps(
+            {
+                "result": result,
+                "message": message,
+                "success": success,
+                "code": code.value,
+            }
+        )
+        return response_model
 
-        http_response = Response(
-            self.response,
+    @staticmethod
+    def build_http_response(
+            status: int, response_model: str = None, mimetype: str = "application/json"
+    ) -> Response:
+        response = Response(
+            response_model,
             mimetype=mimetype,
             status=status,
         )
-
-        return http_response
+        return response

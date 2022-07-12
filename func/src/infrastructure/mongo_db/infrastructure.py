@@ -1,5 +1,7 @@
 # OUTSIDE LIBRARIES
 from motor.motor_asyncio import AsyncIOMotorClient
+
+# PROJECT IMPORTS
 from func.src.infrastructure.env_config import config
 
 

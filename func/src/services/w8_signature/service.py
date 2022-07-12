@@ -1,13 +1,14 @@
 # STANDARD IMPORTS
 import asyncio
-from fastapi import status
+from persephone_client import Persephone
 
 # THIRD PARTY IMPORTS
-from persephone_client import Persephone
+from func.src.domain.enums.status_code.enum import InternalCode
 from func.src.domain.persephone_queue.persephone_queue import PersephoneQueue
 
 # PROJECT IMPORTS
 from func.src.domain.exceptions.exceptions import W8DocumentWasNotUpdated, WasNotSentToPersephone
+from func.src.domain.response.model import ResponseModel
 from func.src.infrastructure.env_config import config
 from func.src.repositories.file.repository import FileRepository
 from func.src.repositories.user.repository import UserRepository
@@ -28,7 +29,7 @@ class W8DocumentService:
 
     @classmethod
     async def update_w8_form_confirmation(
-            cls, payload: dict) -> dict:
+            cls, payload: dict):
 
         unique_id, w8_form_confirmation = cls.__extract_unique_id(payload=payload)
 
@@ -59,17 +60,17 @@ class W8DocumentService:
 
         was_updated = await cls.user_repository.update_one(
             old={"unique_id": unique_id},
-            new={
-                "external_exchange_requirements.us.w8_confirmation": w8_form_confirmation,
-            },
+            new={"external_exchange_requirements.us.w8_confirmation": w8_form_confirmation,},
         )
         if not was_updated:
             raise W8DocumentWasNotUpdated(
                 "common.unable_to_process::W8DocumentService::update_w8_form_confirmation::was_updated::false"
             )
-        response = {
-            "status_code": status.HTTP_200_OK,
-            "message_key": "requests.updated",
-        }
 
-        return response
+        service_response = ResponseModel.build_response(
+            success=True,
+            code=InternalCode.SUCCESS,
+            message="The W8 Form Was Updated Successfully",
+            result=bool(was_updated)
+        )
+        return service_response

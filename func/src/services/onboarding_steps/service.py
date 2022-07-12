@@ -65,10 +65,7 @@ class UserOnBoardingStepsService:
                 .build()
         )
 
-        return {
-            "status_code": status.HTTP_200_OK,
-            "payload": onboarding_steps
-        }
+        return onboarding_steps
 
     @classmethod
     async def onboarding_user_current_step_us(
