@@ -4,7 +4,11 @@ class ErrorOnDecodeJwt(Exception):
 
 
 class InvalidOnboardingStep(Exception):
-    pass
+    msg = "common.process.issue::onboarding_br_step_validator::user.invalid_on_boarding_step"
+
+
+class InvalidParams(Exception):
+    msg = "Jormungandr-Onboarding::w8_confirmation_param::Invalid params were sent"
 
 
 class UserUniqueIdDoesNotExists(Exception):

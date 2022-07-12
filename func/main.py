@@ -2,9 +2,12 @@
 from http import HTTPStatus
 from aioflask import Flask, request, Response, Request
 
+# THIRD PARTY IMPORTS
 from etria_logger import Gladsheim
+
+# PROJECT IMPORTS
 from func.src.domain.enums.status_code.enum import InternalCode
-from func.src.domain.exceptions.exceptions import ErrorOnDecodeJwt, WasNotSentToPersephone
+from func.src.domain.exceptions.exceptions import ErrorOnDecodeJwt, WasNotSentToPersephone, InvalidParams
 from func.src.domain.response.model import ResponseModel
 from func.src.domain.validators.validator import W8FormConfirmation
 from func.src.services.jwt_service.service import JWTService
@@ -30,6 +33,15 @@ async def update_w8_ben_signature(
             response_model=service_response,
             status=HTTPStatus.OK
         )
+        return response
+
+    except InvalidParams as error:
+        Gladsheim.error(error=error, message=error.msg)
+        response = ResponseModel(
+            success=False,
+            code=InternalCode.INVALID_PARAMS,
+            message="Invalid Params were sent"
+        ).build_http_response(status=HTTPStatus.UNAUTHORIZED)
         return response
 
     except ErrorOnDecodeJwt as error:

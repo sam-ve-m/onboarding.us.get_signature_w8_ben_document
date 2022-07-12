@@ -1,4 +1,4 @@
-# OUTSIDE LIBRARIES
+# THIRD PARTY IMPORTS
 import aioredis
 
 
