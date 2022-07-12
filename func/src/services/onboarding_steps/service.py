@@ -129,8 +129,7 @@ class UserOnBoardingStepsService:
     @staticmethod
     async def onboarding_br_step_validator(unique_id: str, onboard_step: List[str]):
         onboarding_steps = await UserOnBoardingStepsService.onboarding_user_current_step_br(unique_id)
-        payload_from_onboarding_steps = onboarding_steps.get("payload")
-        current_onboarding_step = payload_from_onboarding_steps.get(
+        current_onboarding_step = onboarding_steps.get(
             "current_onboarding_step"
         )
         if current_onboarding_step not in onboard_step:

@@ -4,7 +4,7 @@ from aioflask import Flask, request, Response, Request
 
 from etria_logger import Gladsheim
 from func.src.domain.enums.status_code.enum import InternalCode
-from func.src.domain.exceptions.exceptions import ErrorOnDecodeJwt
+from func.src.domain.exceptions.exceptions import ErrorOnDecodeJwt, WasNotSentToPersephone
 from func.src.domain.response.model import ResponseModel
 from func.src.domain.validators.validator import W8FormConfirmation
 from func.src.services.jwt_service.service import JWTService
@@ -38,6 +38,15 @@ async def update_w8_ben_signature(
             success=False,
             code=InternalCode.JWT_INVALID,
             message="Invalid JWT"
+        ).build_http_response(status=HTTPStatus.UNAUTHORIZED)
+        return response
+
+    except WasNotSentToPersephone as error:
+        Gladsheim.error(error=error, message=error.msg)
+        response = ResponseModel(
+            success=False,
+            code=InternalCode.WAS_NOT_SENT_TO_PERSEPHONE,
+            message="update_w8_form_confirmation::sent_to_persephone:false"
         ).build_http_response(status=HTTPStatus.UNAUTHORIZED)
         return response
 
