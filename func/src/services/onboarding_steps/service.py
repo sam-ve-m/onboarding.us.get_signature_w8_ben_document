@@ -1,12 +1,12 @@
 # STANDARD IMPORTS
 import asyncio
 from typing import List
-from fastapi import status
 
-# PROJECT IMPORTS
+# THIRD PARTY IMPORTS
 from persephone_client import Persephone
 
-from src.domain.exceptions.exceptions import BadRequestError, UserUniqueIdDoesNotExists, InvalidOnboardingStep
+# PROJECT IMPORTS
+from src.domain.exceptions.exceptions import UserUniqueIdDoesNotExists, InvalidOnboardingStep
 from src.infrastructure.env_config import config
 from src.repositories.file.enum.user_file import UserFileType
 from src.repositories.file.repository import FileRepository

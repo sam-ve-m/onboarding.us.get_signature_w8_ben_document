@@ -4,7 +4,7 @@ from heimdall_client import Heimdall
 
 # PROJECT IMPORTS
 from heimdall_client.src.domain.enums.heimdall_status_responses import HeimdallStatusResponses
-from func.src.domain.exceptions.exceptions import ErrorOnDecodeJwt
+from src.domain.exceptions.exceptions import ErrorOnDecodeJwt
 
 
 class JWTService:

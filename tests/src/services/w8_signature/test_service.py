@@ -15,7 +15,6 @@ from src.services.w8_signature.service import W8DocumentService
 # STUB IMPORTS
 from tests.src.services.w8_signature.service_stub import payload_w8_sig_stub
 
-
 get_w8_confirmation_stub = {"unique_id": '40db7fee-6d60-4d73-824f-1bf87edc4491',
                             "w8_form_confirmation": True,
                             }

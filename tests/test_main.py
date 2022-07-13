@@ -6,10 +6,10 @@ from werkzeug.exceptions import BadRequest
 from werkzeug.test import Headers
 
 # STUB IMPORTS
-from main import update_w8_ben_signature
-from main_stub import decoded_jwt_stub, request_body_stub, response_bytes_stub
+from .main_stub import decoded_jwt_stub, request_body_stub, response_bytes_stub
 
 # PROJECT IMPORTS
+from main import update_w8_ben_signature
 from src.services.jwt_service.service import JWTService
 from src.services.w8_signature.service import W8DocumentService
 

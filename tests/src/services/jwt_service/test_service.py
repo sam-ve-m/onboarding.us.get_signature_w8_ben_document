@@ -1,7 +1,14 @@
+# STANDARD IMPORTS
 from unittest.mock import patch
 import pytest
+
+# THIRD PARTY IMṔORTS
 from heimdall_client import Heimdall, HeimdallStatusResponses
+
+# PROJECT IMPORTS
 from src.services.jwt_service.service import JWTService
+
+# STUB IMPORTS
 from tests.src.services.jwt_service.service_stub import jwt_data_stub, jwt_to_decode_stub, decoded_jwt_stub
 
 
