@@ -20,7 +20,7 @@ app = Flask(__name__)
 async def update_w8_ben_signature(
         request_body: Request = request,
 ) -> Response:
-    raw_params = request.json
+    raw_params = request_body.json
     w8_confirmation_param = W8FormConfirmation(**raw_params).dict()
     jwt_data = request_body.headers.get("x-thebes-answer")
     thebes_answer = await JWTService.decode_jwt_from_request(jwt_data=jwt_data)
