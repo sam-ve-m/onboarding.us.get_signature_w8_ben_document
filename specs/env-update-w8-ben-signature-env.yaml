@@ -22,9 +22,8 @@ spec:
     image: nexus.sigame.com.br/fission-async:0.1.6
     podspec:
       containers:
-        - name: update-w8-ben-signature
+        - name: update-w8-ben-signature-env
           env:
-
             - name: HEIMDALL_FILE_BUCKET_NAME
               value: "heimdall_rsa"
 
@@ -60,7 +59,7 @@ spec:
             - name: HEIMDALL_BUCKET_NAME_KEY
               value: "auth-gateway-keys-dev"
             - name: HEIMDALL_JWT_REQUIRED_FIELDS
-              value: []
+              value: "[]"
             - name: HEIMDALL_REDIS_HOST
               value: "172.30.11.235"
             - name: HEIMDALL_REDIS_PORT
@@ -73,9 +72,9 @@ spec:
               value: "oUjqwnmdDSA391dja"
 
             - name: ETRIA_LOG_LEVEL
-              value: INFO
+              value: "INFO"
             - name: ROOT_LOG_LEVEL
-              value: INFO
+              value: "INFO"
 
             - name: REDIS_HOST_URL
               value: "redis://bnd:93uOKu5H@172.30.19.183:6379"
@@ -84,7 +83,8 @@ spec:
 
             - name: MONGODB_DATABASE_NAME
               value: "lionx"
-            - name: MONGODB_USER_COLLECTION="users"
+            - name: MONGODB_USER_COLLECTION
+              value: "users"
             - name: MONGO_CONNECTION_URL
               value: "mongodb://jormungandr:LIwn1In32LdowPqma@172.30.10.75:41000/?authSource=admin&replicaSet=rslionx&readPreference=secondary"
 
@@ -104,5 +104,7 @@ spec:
             - name: REDIS_HOST_ACCESS_URL
               value: "redis://bnd:jkl321pqr@172.30.11.235:6379?db=8"
 
+            - name: ASGI_FRAMEWORK
+              value: "HYPERCORN"
 
   version: 2

@@ -13,10 +13,7 @@ from src.domain.validators.validator import W8FormConfirmation
 from src.services.jwt_service.service import JWTService
 from src.services.w8_signature.service import W8DocumentService
 
-app = Flask(__name__)
 
-
-@app.route('/update_w8_ben_signature')
 async def update_w8_ben_signature(
         request_body: Request = request,
 ) -> Response:
@@ -80,7 +77,3 @@ async def update_w8_ben_signature(
             message="Unexpected error occurred"
         ).build_http_response(status=HTTPStatus.INTERNAL_SERVER_ERROR)
         return response
-
-
-if __name__ == "__main__":
-    app.run(debug=True)
