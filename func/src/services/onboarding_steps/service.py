@@ -3,9 +3,6 @@ import asyncio
 from typing import List
 from fastapi import status
 
-# THIRD PARTY IMPORTS
-from persephone_client import Persephone
-
 # PROJECT IMPORTS
 from src.domain.exceptions.exceptions import BadRequestError, UserUniqueIdDoesNotExists, InvalidOnboardingStep
 from src.infrastructure.env_config import config
@@ -17,9 +14,6 @@ from src.services.builders.user.onboarding_steps_builder_us import OnboardingSte
 
 
 class UserOnBoardingStepsService:
-    persephone_client = Persephone
-    user_repository = UserRepository
-    file_repository = FileRepository
 
     # TODO - once the on boarding steps fissions were implemented, replace the services for a layer
     @classmethod
@@ -28,17 +22,17 @@ class UserOnBoardingStepsService:
     ) -> dict:
         onboarding_step_builder = OnboardingStepBuilderBR()
 
-        user_file_exists = await cls.file_repository.user_file_exists(
+        user_file_exists = await FileRepository.user_file_exists(
             file_type=UserFileType.SELFIE,
             unique_id=unique_id,
             bucket_name=config("AWS_BUCKET_USERS_FILES"),
         )
-        user_document_front_exists = cls.file_repository.user_file_exists(
+        user_document_front_exists = FileRepository.user_file_exists(
             file_type=UserFileType.DOCUMENT_FRONT,
             unique_id=unique_id,
             bucket_name=config("AWS_BUCKET_USERS_FILES"),
         )
-        user_document_back_exists = cls.file_repository.user_file_exists(
+        user_document_back_exists = FileRepository.user_file_exists(
             file_type=UserFileType.DOCUMENT_BACK,
             unique_id=unique_id,
             bucket_name=config("AWS_BUCKET_USERS_FILES"),
@@ -47,7 +41,7 @@ class UserOnBoardingStepsService:
             await asyncio.gather(user_document_front_exists, user_document_back_exists)
         )
 
-        current_user = await cls.user_repository.find_one({"unique_id": unique_id})
+        current_user = await UserRepository.find_one({"unique_id": unique_id})
         if current_user is None:
             raise UserUniqueIdDoesNotExists(
                 "common.process.issue::onboarding_user_current_step_br::user_repository.find_one::user_does_exists")
@@ -74,17 +68,18 @@ class UserOnBoardingStepsService:
     ) -> dict:
         onboarding_step_builder = OnboardingStepBuilderUS()
 
-        current_user = await cls.user_repository.find_one({"unique_id": unique_id})
+        current_user = await UserRepository.find_one({"unique_id": unique_id})
 
         if current_user is None:
-            raise BadRequestError("common.register_not_exists")
+            raise UserUniqueIdDoesNotExists(
+                "common.process.issue::onboarding_user_current_step_br::user_repository.find_one::user_does_exists")
 
-        user_document_front_exists = cls.file_repository.user_file_exists(
+        user_document_front_exists = FileRepository.user_file_exists(
             file_type=UserFileType.DOCUMENT_FRONT,
             unique_id=unique_id,
             bucket_name=config("AWS_BUCKET_USERS_FILES"),
         )
-        user_document_back_exists = cls.file_repository.user_file_exists(
+        user_document_back_exists = FileRepository.user_file_exists(
             file_type=UserFileType.DOCUMENT_BACK,
             unique_id=unique_id,
             bucket_name=config("AWS_BUCKET_USERS_FILES"),
@@ -106,10 +101,7 @@ class UserOnBoardingStepsService:
                 .build()
         )
 
-        return {
-            "status_code": status.HTTP_200_OK,
-            "payload": onboarding_steps
-        }
+        return onboarding_steps
 
     @classmethod
     async def onboarding_us_step_validator(
