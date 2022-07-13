@@ -9,15 +9,11 @@ from src.domain.persephone_queue.persephone_queue import PersephoneQueue
 # PROJECT IMPORTS
 from src.domain.exceptions.exceptions import W8DocumentWasNotUpdated, WasNotSentToPersephone
 from src.infrastructure.env_config import config
-from src.repositories.file.repository import FileRepository
 from src.repositories.user.repository import UserRepository
 from src.services.onboarding_steps.service import UserOnBoardingStepsService
 
 
 class W8DocumentService:
-    persephone_client = Persephone
-    user_repository = UserRepository
-    file_repository = FileRepository
 
     @classmethod
     def __extract_unique_id(cls, payload: dict):
@@ -44,7 +40,7 @@ class W8DocumentService:
         (
             sent_to_persephone,
             status_sent_to_persephone,
-        ) = await UserOnBoardingStepsService.persephone_client.send_to_persephone(
+        ) = await Persephone.send_to_persephone(
             topic=config("PERSEPHONE_TOPIC_USER"),
             partition=PersephoneQueue.USER_W8_CONFIRMATION_US.value,
             message=GetW8ConfirmationTemplate.get_w8_form_confirmation_schema_template_with_data(
@@ -59,7 +55,7 @@ class W8DocumentService:
                 "common.process_issue::W8DocumentService::update_w8_form_confirmation::sent_to_persephone:false"
             )
 
-        was_updated = await cls.user_repository.update_one(
+        was_updated = await UserRepository.update_one(
             old={"unique_id": unique_id},
             new={"external_exchange_requirements.us.w8_confirmation": w8_form_confirmation,},
         )
