@@ -4,6 +4,8 @@ from typing import List
 from fastapi import status
 
 # PROJECT IMPORTS
+from persephone_client import Persephone
+
 from src.domain.exceptions.exceptions import BadRequestError, UserUniqueIdDoesNotExists, InvalidOnboardingStep
 from src.infrastructure.env_config import config
 from src.repositories.file.enum.user_file import UserFileType
@@ -14,6 +16,7 @@ from src.services.builders.user.onboarding_steps_builder_us import OnboardingSte
 
 
 class UserOnBoardingStepsService:
+    persephone_client = Persephone
 
     # TODO - once the on boarding steps fissions were implemented, replace the services for a layer
     @classmethod
@@ -109,8 +112,7 @@ class UserOnBoardingStepsService:
             unique_id: str,
             onboard_step: List[str]):
         onboarding_steps = await cls.onboarding_user_current_step_us(unique_id=unique_id)
-        payload_from_onboarding_steps = onboarding_steps.get("payload")
-        current_onboarding_step = payload_from_onboarding_steps.get(
+        current_onboarding_step = onboarding_steps.get(
             "current_onboarding_step"
         )
         if current_onboarding_step not in onboard_step:

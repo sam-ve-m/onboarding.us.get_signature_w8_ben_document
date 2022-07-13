@@ -3,14 +3,14 @@ from unittest.mock import patch
 import pytest
 
 # PROJECT IMPORTS
-from src.domain.exceptions.exceptions import UserUniqueIdDoesNotExists
+from src.domain.exceptions.exceptions import UserUniqueIdDoesNotExists, InvalidOnboardingStep
 from src.repositories.file.repository import FileRepository
 from src.repositories.user.repository import UserRepository
 from src.services.onboarding_steps.service import UserOnBoardingStepsService
 
 # STUBS
 from tests.src.services.on_boarding_steps.service_stub import find_one_stub_steps, builder_stub_on_boarding_steps, \
-    builder_stub_us_onbording
+    builder_stub_us_onbording, onboarding_user_current_step_us_stub, onboarding_user_invalid_current_step_us_stub
 
 
 @pytest.mark.asyncio
@@ -64,4 +64,68 @@ async def test_on_boarding_user_current_step_us_when_current_user_is_none_the_ra
     with pytest.raises(UserUniqueIdDoesNotExists):
         await UserOnBoardingStepsService.onboarding_user_current_step_br(
             unique_id="40db7fee-6d60-4d73-824f-1bf87edc4491"
+        )
+
+
+@pytest.mark.asyncio
+@patch.object(
+    UserOnBoardingStepsService,
+    "onboarding_user_current_step_us",
+    return_value=onboarding_user_current_step_us_stub
+)
+async def test_onboarding_us_step_validator_when_sending_right_params_then_return_expected_which_is_none(
+        mock_onboarding_user_current_step_us
+):
+    response = await UserOnBoardingStepsService.onboarding_us_step_validator(
+        unique_id="40db7fee-6d60-4d73-824f-1bf87edc4491",
+        onboard_step=['w8_confirmation_step', 'finished']
+    )
+    assert response is None
+
+
+@pytest.mark.asyncio
+@patch.object(
+    UserOnBoardingStepsService,
+    "onboarding_user_current_step_us",
+    return_value=onboarding_user_invalid_current_step_us_stub
+)
+async def test_onboarding_us_step_validator_when_sending_right_params_then_raise_error(
+        mock_onboarding_user_current_step_us
+):
+    with pytest.raises(InvalidOnboardingStep):
+        await UserOnBoardingStepsService.onboarding_us_step_validator(
+            unique_id="40db7fee-6d60-4d73-824f-1bf87edc4491",
+            onboard_step=['w8_confirmation_step', 'finished']
+        )
+
+
+@pytest.mark.asyncio
+@patch.object(
+    UserOnBoardingStepsService,
+    "onboarding_user_current_step_br",
+    return_value=onboarding_user_current_step_us_stub
+)
+async def test_onboarding_br_step_validator_when_sending_right_params_then_return_expected_which_is_none(
+        mock_onboarding_user_current_step_br
+):
+    response = await UserOnBoardingStepsService.onboarding_br_step_validator(
+        unique_id="40db7fee-6d60-4d73-824f-1bf87edc4491",
+        onboard_step=['w8_confirmation_step', 'finished']
+    )
+    assert response is None
+
+
+@pytest.mark.asyncio
+@patch.object(
+    UserOnBoardingStepsService,
+    "onboarding_user_current_step_br",
+    return_value=onboarding_user_invalid_current_step_us_stub
+)
+async def test_onboarding_br_step_validator_when_sending_right_params_then_raise_error(
+        mock_onboarding_user_current_step_us
+):
+    with pytest.raises(InvalidOnboardingStep):
+        await UserOnBoardingStepsService.onboarding_br_step_validator(
+            unique_id="40db7fee-6d60-4d73-824f-1bf87edc4491",
+            onboard_step=['w8_confirmation_step', 'finished']
         )

@@ -46,4 +46,7 @@ builder_stub_us_onbording = {'current_onboarding_step': 'finished',
  'terms_step': True,
  'time_experience_step': True,
  'user_document_validator_step': True,
- 'w8_confirmation_step': True}
+ 'w8_confirmation_step': True,}
+
+onboarding_user_current_step_us_stub = {'current_onboarding_step': 'finished', 'terms_step': True, 'user_document_validator_step': True, 'is_politically_exposed_step': True, 'is_exchange_member_step': True, 'is_company_director_step': True, 'external_fiscal_tax_confirmation_step': True, 'employ_step': True, 'time_experience_step': True, 'w8_confirmation_step': True, 'finished': True}
+onboarding_user_invalid_current_step_us_stub = {'terms_step': True, 'user_document_validator_step': True, 'is_politically_exposed_step': True, 'is_exchange_member_step': True, 'is_company_director_step': True, 'external_fiscal_tax_confirmation_step': True, 'employ_step': True, 'time_experience_step': True, 'w8_confirmation_step': True, 'finished': True}

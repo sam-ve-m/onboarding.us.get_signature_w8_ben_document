@@ -27,7 +27,9 @@ class W8DocumentService:
 
     @classmethod
     async def update_w8_form_confirmation(
-            cls, payload: dict):
+            cls,
+            payload: dict
+    ):
 
         unique_id, w8_form_confirmation = cls.__extract_unique_id(payload=payload)
 
