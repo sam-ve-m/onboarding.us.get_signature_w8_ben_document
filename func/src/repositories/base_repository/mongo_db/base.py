@@ -7,9 +7,9 @@ from datetime import datetime
 from nidavellir import Sindri
 
 # Sphinx
-from func.src.domain.model_decorator.generate_id import hash_field
-from func.src.infrastructure.mongo_db.infrastructure import MongoDBInfrastructure
-from func.src.repositories.cache.repository import RepositoryRedis
+from src.domain.model_decorator.generate_id import hash_field
+from src.infrastructure.mongo_db.infrastructure import MongoDBInfrastructure
+from src.repositories.cache.repository import RepositoryRedis
 
 
 class MongoDbBaseRepository:

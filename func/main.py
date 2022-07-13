@@ -6,12 +6,12 @@ from aioflask import Flask, request, Response, Request
 from etria_logger import Gladsheim
 
 # PROJECT IMPORTS
-from func.src.domain.enums.status_code.enum import InternalCode
-from func.src.domain.exceptions.exceptions import ErrorOnDecodeJwt, WasNotSentToPersephone, InvalidParams
-from func.src.domain.response.model import ResponseModel
-from func.src.domain.validators.validator import W8FormConfirmation
-from func.src.services.jwt_service.service import JWTService
-from func.src.services.w8_signature.service import W8DocumentService
+from src.domain.enums.status_code.enum import InternalCode
+from src.domain.exceptions.exceptions import ErrorOnDecodeJwt, WasNotSentToPersephone, InvalidParams
+from src.domain.response.model import ResponseModel
+from src.domain.validators.validator import W8FormConfirmation
+from src.services.jwt_service.service import JWTService
+from src.services.w8_signature.service import W8DocumentService
 
 app = Flask(__name__)
 
@@ -62,6 +62,15 @@ async def update_w8_ben_signature(
             code=InternalCode.WAS_NOT_SENT_TO_PERSEPHONE,
             message="update_w8_form_confirmation::sent_to_persephone:false"
         ).build_http_response(status=HTTPStatus.UNAUTHORIZED)
+        return response
+
+    except TypeError as ex:
+        Gladsheim.error(error=ex)
+        response = ResponseModel(
+            success=False,
+            code=InternalCode.NOT_DATE_TIME,
+            message="months_past::submission_date is not a datetime"
+        ).build_http_response(status=HTTPStatus.INTERNAL_SERVER_ERROR)
         return response
 
     except Exception as ex:

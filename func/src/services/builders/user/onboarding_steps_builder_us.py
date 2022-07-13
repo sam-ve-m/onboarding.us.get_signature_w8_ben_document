@@ -1,8 +1,9 @@
 # PROJECT IMPORTS
-from func.src.repositories.file.enum.term_file import TermsFileType
+from src.repositories.file.enum.term_file import TermsFileType
 
 
 class OnboardingStepBuilderUS:
+
     def __init__(self):
         self.__onboarding_steps: dict = {
             "current_onboarding_step": "terms_step",

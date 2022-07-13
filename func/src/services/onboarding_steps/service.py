@@ -7,13 +7,13 @@ from fastapi import status
 from persephone_client import Persephone
 
 # PROJECT IMPORTS
-from func.src.domain.exceptions.exceptions import BadRequestError, UserUniqueIdDoesNotExists, InvalidOnboardingStep
-from func.src.infrastructure.env_config import config
-from func.src.repositories.file.enum.user_file import UserFileType
-from func.src.repositories.file.repository import FileRepository
-from func.src.repositories.user.repository import UserRepository
-from func.src.services.builders.user.on_boarding_step_builder_br import OnboardingStepBuilderBR
-from func.src.services.builders.user.onboarding_steps_builder_us import OnboardingStepBuilderUS
+from src.domain.exceptions.exceptions import BadRequestError, UserUniqueIdDoesNotExists, InvalidOnboardingStep
+from src.infrastructure.env_config import config
+from src.repositories.file.enum.user_file import UserFileType
+from src.repositories.file.repository import FileRepository
+from src.repositories.user.repository import UserRepository
+from src.services.builders.user.on_boarding_step_builder_br import OnboardingStepBuilderBR
+from src.services.builders.user.onboarding_steps_builder_us import OnboardingStepBuilderUS
 
 
 class UserOnBoardingStepsService:

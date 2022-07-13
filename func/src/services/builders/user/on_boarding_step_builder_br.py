@@ -1,5 +1,5 @@
 # PROJECT IMPORTS
-from func.src.domain.enums.caf.enum import CAFStatus
+from src.domain.enums.caf.enum import CAFStatus
 
 
 class OnboardingStepBuilderBR:

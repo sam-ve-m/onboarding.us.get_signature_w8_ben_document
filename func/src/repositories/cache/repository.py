@@ -1,6 +1,6 @@
 # PROJECT IMPORTS
-from func.src.infrastructure.env_config import config
-from func.src.repositories.base_repository.redis.base import BaseRepositoryRedis
+from src.infrastructure.env_config import config
+from src.repositories.base_repository.redis.base import BaseRepositoryRedis
 
 
 class RepositoryRedis(BaseRepositoryRedis):

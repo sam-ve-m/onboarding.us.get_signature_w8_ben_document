@@ -3,17 +3,15 @@ import asyncio
 from persephone_client import Persephone
 
 # THIRD PARTY IMPORTS
-from func.src.domain.enums.status_code.enum import InternalCode
-from func.src.domain.persephone.model import GetW8ConfirmationTemplate
-from func.src.domain.persephone_queue.persephone_queue import PersephoneQueue
+from src.domain.persephone.model import GetW8ConfirmationTemplate
+from src.domain.persephone_queue.persephone_queue import PersephoneQueue
 
 # PROJECT IMPORTS
-from func.src.domain.exceptions.exceptions import W8DocumentWasNotUpdated, WasNotSentToPersephone
-from func.src.domain.response.model import ResponseModel
-from func.src.infrastructure.env_config import config
-from func.src.repositories.file.repository import FileRepository
-from func.src.repositories.user.repository import UserRepository
-from func.src.services.onboarding_steps.service import UserOnBoardingStepsService
+from src.domain.exceptions.exceptions import W8DocumentWasNotUpdated, WasNotSentToPersephone
+from src.infrastructure.env_config import config
+from src.repositories.file.repository import FileRepository
+from src.repositories.user.repository import UserRepository
+from src.services.onboarding_steps.service import UserOnBoardingStepsService
 
 
 class W8DocumentService:

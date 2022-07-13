@@ -7,11 +7,11 @@ from aiohttp import ClientSession
 
 
 # PROJECT IMPORTS
-from func.src.domain.exceptions.exceptions import InternalServerError
-from func.src.infrastructure.s3.infrastructure import S3Infrastructure
-from func.src.repositories.cache.repository import RepositoryRedis
-from func.src.repositories.file.enum.term_file import TermsFileType
-from func.src.repositories.file.enum.user_file import UserFileType
+from src.domain.exceptions.exceptions import InternalServerError
+from src.infrastructure.s3.infrastructure import S3Infrastructure
+from src.repositories.cache.repository import RepositoryRedis
+from src.repositories.file.enum.term_file import TermsFileType
+from src.repositories.file.enum.user_file import UserFileType
 
 
 class FileRepository:

@@ -2,10 +2,11 @@
 from json import dumps
 from flask import Response
 
-# PROJECT IMPORTS
-from func.src.domain.enums.status_code.enum import InternalCode
-
+# THIRD PARTY IMPORTS
 from nidavellir import Sindri
+
+# PROJECT IMPORTS
+from src.domain.enums.status_code.enum import InternalCode
 
 
 class ResponseModel:

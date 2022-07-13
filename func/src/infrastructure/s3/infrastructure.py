@@ -4,8 +4,8 @@ from contextlib import asynccontextmanager
 from etria_logger import Gladsheim
 
 # Sphinx
-from func.src.domain.exceptions.exceptions import InternalServerError
-from func.src.infrastructure.env_config import config
+from src.domain.exceptions.exceptions import InternalServerError
+from src.infrastructure.env_config import config
 
 
 class S3Infrastructure:
