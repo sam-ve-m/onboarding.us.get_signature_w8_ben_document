@@ -1,0 +1,55 @@
+include:
+- ./func/*
+kind: ArchiveUploadSpec
+name: func-K6Be
+
+---
+apiVersion: fission.io/v1
+kind: Package
+metadata:
+  creationTimestamp: null
+  name: update-w8-ben-signature-fn-c23880fd-5b82-4f7b-814a-9dcb8d14877b
+  namespace: default
+spec:
+  deployment:
+    checksum: {}
+  environment:
+    name: update-w8-ben-signature-env
+    namespace: default
+  source:
+    checksum: {}
+    type: url
+    url: archive://func-K6Be
+status:
+  buildstatus: pending
+  lastUpdateTimestamp: "2022-07-13T19:19:14Z"
+
+---
+apiVersion: fission.io/v1
+kind: Function
+metadata:
+  creationTimestamp: null
+  name: update-w8-ben-signature-fn
+  namespace: default
+spec:
+  InvokeStrategy:
+    ExecutionStrategy:
+      ExecutorType: poolmgr
+      MaxScale: 0
+      MinScale: 0
+      SpecializationTimeout: 120
+      TargetCPUPercent: 0
+    StrategyType: execution
+  concurrency: 500
+  environment:
+    name: update-w8-ben-signature-env
+    namespace: default
+  functionTimeout: 60
+  idletimeout: 120
+  package:
+    functionName: main.update_w8_ben_signature
+    packageref:
+      name: update-w8-ben-signature-fn-c23880fd-5b82-4f7b-814a-9dcb8d14877b
+      namespace: default
+  requestsPerPod: 1
+  resources: {}

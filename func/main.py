@@ -20,14 +20,13 @@ app = Flask(__name__)
 async def update_w8_ben_signature(
         request_body: Request = request,
 ) -> Response:
-    raw_params = request_body.json
-    w8_confirmation_param = W8FormConfirmation(**raw_params).dict()
     jwt_data = request_body.headers.get("x-thebes-answer")
     thebes_answer = await JWTService.decode_jwt_from_request(jwt_data=jwt_data)
-    payload = {"x-thebes-answer": thebes_answer}
-    payload.update(w8_confirmation_param)
+    w8_confirmation_param = W8FormConfirmation(**request_body.json).dict()
 
     try:
+        payload = {"x-thebes-answer": thebes_answer}
+        payload.update(w8_confirmation_param)
         service_response = await W8DocumentService.update_w8_form_confirmation(payload=payload)
         response = ResponseModel(
             success=True,
