@@ -1,6 +1,6 @@
 # STANDARD IMPORTS
 from http import HTTPStatus
-from aioflask import request, Response, Request
+from flask import request, Response, Request
 
 # THIRD PARTY IMPORTS
 from etria_logger import Gladsheim

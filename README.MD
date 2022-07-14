@@ -26,10 +26,10 @@ UserService.update_w8_form_confirmation
 
 ```
 {
-    "result": null,
-    "message": "update_w8_form_confirmation::sent_to_persephone:false",
-    "success": false,
-    "code": 60
+    "result": true,
+    "message": "The W8 Form Was Updated Successfully",
+    "success": true,
+    "code": 0
 }
 ```
 &nbsp;

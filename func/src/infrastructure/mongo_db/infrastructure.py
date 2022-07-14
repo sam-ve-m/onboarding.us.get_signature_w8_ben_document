@@ -1,8 +1,6 @@
 # OUTSIDE LIBRARIES
+from decouple import config
 from motor.motor_asyncio import AsyncIOMotorClient
-
-# PROJECT IMPORTS
-from src.infrastructure.env_config import config
 
 
 class MongoDBInfrastructure:

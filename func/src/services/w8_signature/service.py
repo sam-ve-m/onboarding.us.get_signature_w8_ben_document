@@ -1,5 +1,7 @@
 # STANDARD IMPORTS
 import asyncio
+
+from decouple import config
 from persephone_client import Persephone
 
 # THIRD PARTY IMPORTS
@@ -8,7 +10,6 @@ from src.domain.persephone_queue.persephone_queue import PersephoneQueue
 
 # PROJECT IMPORTS
 from src.domain.exceptions.exceptions import W8DocumentWasNotUpdated, WasNotSentToPersephone
-from src.infrastructure.env_config import config
 from src.repositories.user.repository import UserRepository
 from src.services.onboarding_steps.service import UserOnBoardingStepsService
 

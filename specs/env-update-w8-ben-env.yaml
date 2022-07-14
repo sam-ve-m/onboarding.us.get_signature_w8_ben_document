@@ -24,7 +24,6 @@ spec:
       containers:
         - name: update-w8-ben-env
           env:
-
             - name: HEIMDALL_FILE_BUCKET_NAME
               value: "heimdall_rsa"
             - name: HEIMDALL_AWS_ACCESS_KEY_ID
@@ -93,4 +92,6 @@ spec:
               value: "1"
             - name: REDIS_HOST_ACCESS_URL
               value: "redis://bnd:jkl321pqr@172.30.11.235:6379?db=8"
+            - name: ASGI_FRAMEWORK
+              value: "HYPERCORN"
   version: 2
