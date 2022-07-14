@@ -9,7 +9,7 @@ from werkzeug.test import Headers
 from .main_stub import decoded_jwt_stub, request_body_stub, response_bytes_stub
 
 # PROJECT IMPORTS
-from main import update_w8_ben_signature
+from main import update_w8_ben
 from src.services.jwt_service.service import JWTService
 from src.services.w8_signature.service import W8DocumentService
 
@@ -26,7 +26,7 @@ async def test_get_w8_ben_when_sending_right_params_then_return_the_expected(
             json=request_body_stub,
             headers=Headers({"x-thebes-answer": "jwt_to_decode_stub"}),
     ).request as request:
-        response = await update_w8_ben_signature(request_body=request)
+        response = await update_w8_ben(request_body=request)
         assert response.data == response_bytes_stub
 
 
@@ -43,4 +43,4 @@ async def test_get_w8_ben_when_sending_wrong_params_then_return_the_expected_whi
             headers=Headers({"x-thebes-answer": "jwt_to_decode_stub"}),
     ).request as request:
         with pytest.raises(BadRequest):
-            await update_w8_ben_signature(request_body=request)
+            await update_w8_ben(request_body=request)

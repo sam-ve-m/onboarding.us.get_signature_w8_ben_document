@@ -1,6 +1,6 @@
 # STANDARD IMPORTS
 from http import HTTPStatus
-from aioflask import Flask, request, Response, Request
+from aioflask import request, Response, Request
 
 # THIRD PARTY IMPORTS
 from etria_logger import Gladsheim
@@ -14,7 +14,7 @@ from src.services.jwt_service.service import JWTService
 from src.services.w8_signature.service import W8DocumentService
 
 
-async def update_w8_ben_signature(
+async def update_w8_ben(
         request_body: Request = request,
 ) -> Response:
     jwt_data = request_body.headers.get("x-thebes-answer")
