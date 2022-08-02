@@ -25,15 +25,3 @@ class NotSentToPersephone(Exception):
 
 class InternalServerError(Exception):
     pass
-
-
-class UnauthorizedError(Exception):
-    pass
-
-
-class ForbiddenError(Exception):
-    pass
-
-
-class BadRequestError(Exception):
-    pass

@@ -1,6 +1,6 @@
 # STANDARD IMPORTS
 from http import HTTPStatus
-from aioflask import request, Response, Request, Flask
+from flask import request, Response, Request, Flask
 
 # THIRD PARTY IMPORTS
 from etria_logger import Gladsheim
@@ -14,10 +14,6 @@ from src.domain.response.model import ResponseModel
 from src.services.w8_signature.service import W8DocumentService
 
 
-app = Flask(__name__)
-
-
-@app.route('/put/update_w8_ben')
 async def update_w8_ben(
         request_body: Request = request,
 ) -> Response:
@@ -84,6 +80,3 @@ async def update_w8_ben(
             message="Unexpected error occurred"
         ).build_http_response(status=HTTPStatus.INTERNAL_SERVER_ERROR)
         return response
-
-if __name__ == "__main__":
-    app.run(debug=True)
