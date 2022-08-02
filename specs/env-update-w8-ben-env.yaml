@@ -24,6 +24,10 @@ spec:
       containers:
         - name: update-w8-ben-env
           env:
+            - name: BR_BASE_URL
+              value: "http://fission.dev-lionx.com.br/onboarding_steps_br"
+            - name: US_BASE_URL
+              value: "http://fission.dev-lionx.com.br/onboarding_steps_us"
             - name: PERSEPHONE_SCHEMA
               value: "prospect_user_schema"
             - name: PERSEPHONE_TOPIC_USER
