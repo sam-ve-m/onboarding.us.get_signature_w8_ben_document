@@ -7,7 +7,7 @@ from persephone_client import Persephone
 
 # PROJECT STUBS
 from src.domain.exceptions.exceptions import WasNotSentToPersephone, W8DocumentWasNotUpdated
-from src.domain.persephone.model import GetW8ConfirmationTemplate
+from src.domain.persephone.template import GetW8ConfirmationTemplate
 from src.repositories.user.repository import UserRepository
 from src.services.onboarding_steps.service import UserOnBoardingStepsService
 from src.services.w8_signature.service import W8DocumentService

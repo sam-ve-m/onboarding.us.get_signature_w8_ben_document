@@ -1,64 +1,40 @@
 # STANDARD IMPORTS
 import asyncio
 
-from decouple import config
-from persephone_client import Persephone
-
-# THIRD PARTY IMPORTS
-from src.domain.persephone.model import GetW8ConfirmationTemplate
-from src.domain.persephone_queue.persephone_queue import PersephoneQueue
-
 # PROJECT IMPORTS
-from src.domain.exceptions.exceptions import W8DocumentWasNotUpdated, WasNotSentToPersephone
+from src.domain.exceptions.exceptions import W8DocumentWasNotUpdated
+from src.domain.models.jwt.response import Jwt
+from src.domain.models.w8_signature.base.model import W8FormConfirmation
 from src.repositories.user.repository import UserRepository
-from src.services.onboarding_steps.service import UserOnBoardingStepsService
+from src.services.persephone.service import SendToPersephone
+from src.transport.onboarding_steps_br.transport import ValidateOnboardingStepsBr
+from src.transport.onboarding_steps_us.transport import ValidateOnboardingStepsUS
 
 
 class W8DocumentService:
 
     @classmethod
-    def __extract_unique_id(cls, payload: dict):
-        unique_id = payload.get("x-thebes-answer").get("user").get("unique_id")
-        w8_form_confirmation = payload.get("w8_confirmation")
-        return unique_id, w8_form_confirmation
-
-    @classmethod
     async def update_w8_form_confirmation(
             cls,
-            payload: dict
+            w8_confirmation_request: W8FormConfirmation,
+            jwt_data: Jwt,
+
     ):
-
-        unique_id, w8_form_confirmation = cls.__extract_unique_id(payload=payload)
-
-        br_step_validator = UserOnBoardingStepsService.onboarding_br_step_validator(
-            unique_id=unique_id, onboard_step=["finished"]
+        br_step_validator = ValidateOnboardingStepsBr.validate_onboarding_steps_br(
+            jwt_data=jwt_data
         )
-        us_step_validator = UserOnBoardingStepsService.onboarding_us_step_validator(
-            unique_id=unique_id, onboard_step=["w8_confirmation_step", "finished"]
+        us_step_validator = ValidateOnboardingStepsUS.validate_onboarding_steps_us(
+            jwt_data=jwt_data
         )
         await asyncio.gather(br_step_validator, us_step_validator)
 
-        (
-            sent_to_persephone,
-            status_sent_to_persephone,
-        ) = await Persephone.send_to_persephone(
-            topic=config("PERSEPHONE_TOPIC_USER"),
-            partition=PersephoneQueue.USER_W8_CONFIRMATION_US.value,
-            message=GetW8ConfirmationTemplate.get_w8_form_confirmation_schema_template_with_data(
-                w8_form_confirmation=w8_form_confirmation,
-                unique_id=unique_id
-            ),
-            schema_name="user_w8_form_confirmation_us_schema",
+        await SendToPersephone.register_w8_confirmation_log(
+            jwt_data=jwt_data,
+            w8_confirmation_request=w8_confirmation_request
         )
 
-        if sent_to_persephone is False:
-            raise WasNotSentToPersephone(
-                "common.process_issue::W8DocumentService::update_w8_form_confirmation::sent_to_persephone:false"
-            )
-
-        was_updated = await UserRepository.update_one(
-            old={"unique_id": unique_id},
-            new={"external_exchange_requirements.us.w8_confirmation": w8_form_confirmation,},
+        was_updated = await UserRepository.update_user_and_us_w8_confirmation(
+            jwt_data=jwt_data
         )
 
         if not was_updated:

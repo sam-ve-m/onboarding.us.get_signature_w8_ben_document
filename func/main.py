@@ -1,30 +1,37 @@
 # STANDARD IMPORTS
 from http import HTTPStatus
-from flask import request, Response, Request
+from flask import request, Response, Request, Flask
 
 # THIRD PARTY IMPORTS
 from etria_logger import Gladsheim
 
 # PROJECT IMPORTS
 from src.domain.enums.status_code.enum import InternalCode
-from src.domain.exceptions.exceptions import ErrorOnDecodeJwt, WasNotSentToPersephone, InvalidParams
+from src.domain.exceptions.exceptions import ErrorOnDecodeJwt, InvalidParams, NotSentToPersephone
+from src.domain.models.jwt.response import Jwt
+from src.domain.models.w8_signature.base.model import W8FormConfirmation
 from src.domain.response.model import ResponseModel
-from src.domain.validators.validator import W8FormConfirmation
-from src.services.jwt_service.service import JWTService
 from src.services.w8_signature.service import W8DocumentService
 
 
+app = Flask(__name__)
+
+
+@app.route('/put/update_w8_ben')
 async def update_w8_ben(
         request_body: Request = request,
 ) -> Response:
-    jwt_data = request_body.headers.get("x-thebes-answer")
-    thebes_answer = await JWTService.decode_jwt_from_request(jwt_data=jwt_data)
-    w8_confirmation_param = W8FormConfirmation(**request_body.json).dict()
+    thebes_answer = request_body.headers.get("x-thebes-answer")
 
     try:
-        payload = {"x-thebes-answer": thebes_answer}
-        payload.update(w8_confirmation_param)
-        service_response = await W8DocumentService.update_w8_form_confirmation(payload=payload)
+        jwt_data = Jwt(jwt=thebes_answer)
+        await jwt_data()
+        w8_confirmation_request = W8FormConfirmation(**request_body.json)
+
+        service_response = await W8DocumentService.update_w8_form_confirmation(
+            jwt_data=jwt_data,
+            w8_confirmation_request=w8_confirmation_request
+        )
         response = ResponseModel(
             success=True,
             code=InternalCode.SUCCESS,
@@ -51,7 +58,7 @@ async def update_w8_ben(
         ).build_http_response(status=HTTPStatus.UNAUTHORIZED)
         return response
 
-    except WasNotSentToPersephone as error:
+    except NotSentToPersephone as error:
         Gladsheim.error(error=error, message=error.msg)
         response = ResponseModel(
             success=False,
@@ -77,3 +84,6 @@ async def update_w8_ben(
             message="Unexpected error occurred"
         ).build_http_response(status=HTTPStatus.INTERNAL_SERVER_ERROR)
         return response
+
+if __name__ == "__main__":
+    app.run(debug=True)

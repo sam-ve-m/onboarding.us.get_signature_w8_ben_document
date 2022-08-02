@@ -3,6 +3,7 @@ from enum import IntEnum
 
 
 class InternalCode(IntEnum):
+    HTTP_CONNECTION_POLL = 89
     SUCCESS = 0
     INVALID_PARAMS = 10
     JWT_INVALID = 30
