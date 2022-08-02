@@ -1,7 +1,8 @@
 # STANDARD IMPORTS
-from decouple import config
+# from decouple import config
 
 # PROJECT IMPORTS
+from src.infrastructure.env_config import config
 from src.repositories.base_repository.redis.base import BaseRepositoryRedis
 
 
