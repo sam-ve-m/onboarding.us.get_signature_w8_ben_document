@@ -19,6 +19,10 @@ class W8DocumentWasNotUpdated(Exception):
     pass
 
 
+class HttpErrorGettingOnboardingSteps(Exception):
+    msg = "common_process_issue::ValidateOnboardingStepsUS::validate_onboarding_steps_us"
+
+
 class NotSentToPersephone(Exception):
     msg = "common.process_issue::W8DocumentService::update_w8_form_confirmation::sent_to_persephone:false"
 

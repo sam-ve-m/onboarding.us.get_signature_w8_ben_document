@@ -58,30 +58,12 @@ spec:
               value: "INFO"
             - name: ROOT_LOG_LEVEL
               value: "INFO"
-            - name: REDIS_HOST_URL
-              value: "redis://bnd:93uOKu5H@172.30.19.183:6379"
-            - name: REDIS_CACHE_DB
-              value: "1"
             - name: MONGODB_DATABASE_NAME
               value: "lionx"
             - name: MONGODB_USER_COLLECTION
               value: "users"
             - name: MONGO_CONNECTION_URL
               value: "mongodb://jormungandr:LIwn1In32LdowPqma@172.30.10.75:41000/?authSource=admin&replicaSet=rslionx&readPreference=secondary"
-            - name: MEPHO_DW_APP_KEY
-              value: "93d6184b-4692-4058-b32d-82624be89cb1"
-            - name: MEPHO_DW_USER
-              value: "bo.lionx.api"
-            - name: MEPHO_DW_PASSWORD
-              value: "passw0rd"
-            - name: MEPHO_DW_AUTHENTICATION_URL
-              value: "https://bo-api.drivewealth.io/back-office/auth"
-            - name: MEPHO_REDIS_HOST
-              value: "redis://bnd:93uOKu5H@172.30.19.183:6379"
-            - name: MEPHO_REDIS_DB
-              value: "1"
-            - name: REDIS_HOST_ACCESS_URL
-              value: "redis://bnd:jkl321pqr@172.30.11.235:6379?db=8"
             - name: ASGI_FRAMEWORK
               value: "HYPERCORN"
   version: 2

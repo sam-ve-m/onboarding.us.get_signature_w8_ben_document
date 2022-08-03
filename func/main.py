@@ -1,6 +1,6 @@
 # STANDARD IMPORTS
 from http import HTTPStatus
-from flask import request, Response, Request, Flask
+from aioflask import request, Response, Request
 
 # THIRD PARTY IMPORTS
 from etria_logger import Gladsheim
@@ -9,8 +9,8 @@ from etria_logger import Gladsheim
 from src.domain.enums.status_code.enum import InternalCode
 from src.domain.exceptions.exceptions import ErrorOnDecodeJwt, InvalidParams, NotSentToPersephone
 from src.domain.models.jwt.response import Jwt
+from src.domain.models.response.model import ResponseModel
 from src.domain.models.w8_signature.base.model import W8FormConfirmation
-from src.domain.response.model import ResponseModel
 from src.services.w8_signature.service import W8DocumentService
 
 
