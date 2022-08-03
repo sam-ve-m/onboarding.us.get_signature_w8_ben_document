@@ -4,9 +4,8 @@ import requests
 import aiohttp
 
 # THIRD PART IMPORTS
-# from decouple import config
+from decouple import config
 from src.domain.models.response.model import ResponseModel
-from src.infrastructure.env_config import config
 from etria_logger import Gladsheim
 
 # PROJECT IMPORTS

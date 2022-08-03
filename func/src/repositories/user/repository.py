@@ -3,8 +3,7 @@ from src.domain.models.jwt.response import Jwt
 from src.infrastructure.mongo_db.infrastructure import MongoDBInfrastructure
 
 # STANDARD IMPORTS
-# from decouple import config
-from src.infrastructure.env_config import config
+from decouple import config
 
 # THIRD PART IMPORTS
 from etria_logger import Gladsheim
