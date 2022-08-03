@@ -23,11 +23,12 @@ get_drive_wealth_id = "125458.hagfsdsa"
 @patch.object(Jwt, "get_w8_confirmation_from_jwt_payload", return_value=get_drive_wealth_id)
 @patch.object(W8DocumentService, "update_w8_form_confirmation", return_value=True)
 async def test_get_w8_ben_when_sending_right_params_then_return_the_expected(
-        mock_decode_and_validate_jwt,
-        mock_get_unique_id_from_jwt_payload,
+        mock_update_w8_form_confirmation,
         mock_get_w8_confirmation_from_jwt_payload,
-        mock_update_w8_form_confirmation
+        mock_get_unique_id_from_jwt_payload,
+        mock_decode_and_validate_jwt
 ):
+
     app = Flask(__name__)
     with app.test_request_context(
             json=request_body_stub,
