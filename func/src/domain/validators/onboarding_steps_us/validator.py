@@ -4,7 +4,7 @@ from src.domain.exceptions.exceptions import InvalidOnboardingStep
 
 class OnboardingStepsUsValidator:
 
-    expected_step_us = {'is_exchange_member_step', 'finished'}
+    expected_step_us = {'w8_confirmation', 'finished'}
 
     @classmethod
     async def onboarding_us_step_validator(cls, step_response: dict) -> bool:
