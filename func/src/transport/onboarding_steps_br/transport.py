@@ -1,6 +1,5 @@
 # STANDARD IMPORTS
 from http import HTTPStatus
-import requests
 import aiohttp
 
 # THIRD PART IMPORTS
@@ -34,7 +33,7 @@ class ValidateOnboardingStepsBr:
 
                     return step_is_valid
 
-        except requests.exceptions.ConnectionError as error:
+        except Exception as error:
             Gladsheim.error(error=error)
             response = ResponseModel(
                 result=False,

@@ -6,12 +6,12 @@ from heimdall_client import Heimdall, HeimdallStatusResponses
 from werkzeug.test import Headers
 
 # STUB IMPORTS
-from src.domain.models.jwt.response import Jwt
-from .main_stub import request_body_stub, response_bytes_stub
+from func.src.domain.models.jwt.response import Jwt
+from tests.main_stub import request_body_stub, response_bytes_stub
 
 # PROJECT IMPORTS
-from main import update_w8_ben
-from src.services.w8_signature.service import W8DocumentService
+from func.main import update_w8_ben
+from func.src.services.w8_signature.service import W8DocumentService
 
 
 get_drive_wealth_id = "125458.hagfsdsa"
