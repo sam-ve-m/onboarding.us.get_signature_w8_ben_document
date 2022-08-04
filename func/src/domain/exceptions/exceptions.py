@@ -4,11 +4,7 @@ class ErrorOnDecodeJwt(Exception):
 
 
 class InvalidOnboardingStep(Exception):
-    msg = "common.process.issue::onboarding_br_step_validator::user.invalid_on_boarding_step"
-
-
-class InvalidParams(Exception):
-    msg = "Jormungandr-Onboarding::w8_confirmation_param::Invalid params were sent"
+    msg = "common.process.issue::onboarding_step_validator::user.invalid_on_boarding_step"
 
 
 class TransportOnboardingError(Exception):

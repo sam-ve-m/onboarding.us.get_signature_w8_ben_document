@@ -15,7 +15,7 @@ from src.domain.exceptions.exceptions import (
     ErrorOnDecodeJwt,
     InvalidParams,
     NotSentToPersephone,
-    TransportOnboardingError)
+    TransportOnboardingError, InvalidOnboardingStep)
 
 
 async def update_w8_ben(
@@ -40,12 +40,12 @@ async def update_w8_ben(
         ).build_http_response(status=HTTPStatus.OK)
         return response
 
-    except InvalidParams as error:
+    except InvalidOnboardingStep as error:
         Gladsheim.error(error=error, message=error.msg)
         response = ResponseModel(
             success=False,
-            code=InternalCode.INVALID_PARAMS,
-            message="Invalid Params were sent"
+            code=InternalCode.INVALID_ONBOARDING_STEPS,
+            message="Invalid Onboarding Steps"
         ).build_http_response(status=HTTPStatus.UNAUTHORIZED)
         return response
 
@@ -72,7 +72,7 @@ async def update_w8_ben(
         response = ResponseModel(
             success=False,
             code=InternalCode.TRANSPORT_ON_BOARDING_ERROR,
-            message="update_w8_form_confirmation::sent_to_persephone:false"
+            message="update_w8_form_confirmation::error fetching data from transport layer"
         ).build_http_response(status=HTTPStatus.INTERNAL_SERVER_ERROR)
         return response
 
