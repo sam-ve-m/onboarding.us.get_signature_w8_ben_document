@@ -6,12 +6,16 @@ from flask import request, Response, Request
 from etria_logger import Gladsheim
 
 # PROJECT IMPORTS
-from src.domain.enums.status_code.enum import InternalCode
-from src.domain.exceptions.exceptions import ErrorOnDecodeJwt, InvalidParams, NotSentToPersephone
 from src.domain.models.jwt.response import Jwt
 from src.domain.models.response.model import ResponseModel
 from src.domain.models.w8_signature.base.model import W8FormConfirmation
 from src.services.w8_signature.service import W8DocumentService
+from src.domain.enums.status_code.enum import InternalCode
+from src.domain.exceptions.exceptions import (
+    ErrorOnDecodeJwt,
+    InvalidParams,
+    NotSentToPersephone,
+    TransportOnboardingError)
 
 
 async def update_w8_ben(
@@ -61,6 +65,15 @@ async def update_w8_ben(
             code=InternalCode.WAS_NOT_SENT_TO_PERSEPHONE,
             message="update_w8_form_confirmation::sent_to_persephone:false"
         ).build_http_response(status=HTTPStatus.UNAUTHORIZED)
+        return response
+
+    except TransportOnboardingError as error:
+        Gladsheim.error(error=error, message=error.msg)
+        response = ResponseModel(
+            success=False,
+            code=InternalCode.TRANSPORT_ON_BOARDING_ERROR,
+            message="update_w8_form_confirmation::sent_to_persephone:false"
+        ).build_http_response(status=HTTPStatus.INTERNAL_SERVER_ERROR)
         return response
 
     except TypeError as ex:

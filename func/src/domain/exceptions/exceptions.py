@@ -11,6 +11,10 @@ class InvalidParams(Exception):
     msg = "Jormungandr-Onboarding::w8_confirmation_param::Invalid params were sent"
 
 
+class TransportOnboardingError(Exception):
+    msg = "Jormungandr-Onboarding::ValidateOnboardingSteps::error on fetching data from fission steps"
+
+
 class UserUniqueIdDoesNotExists(Exception):
     pass
 
