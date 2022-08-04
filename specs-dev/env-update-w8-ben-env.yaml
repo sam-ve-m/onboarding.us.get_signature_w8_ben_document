@@ -35,13 +35,9 @@ spec:
             - name: US_BASE_URL
               value: "http://fission.dev-lionx.com.br/onboarding/steps_us"
             - name: PERSEPHONE_SCHEMA
-              value: "prospect_user_schema"
+              value: "user_w8_form_confirmation_us_schema"
             - name: PERSEPHONE_TOPIC_USER
-              value: "sphinx_persephone.user.crud"
-            - name: PERSEPHONE_QUEUE_HOST
-              value: "172.30.10.105"
-            - name: PERSEPHONE_QUEUE_PORT
-              value: "9092"
+              value: "sphinx-persephone.user.crud"
             - name: PERSEPHONE_KAFKA_BROKERS
               value: "172.30.10.105:9092"
             - name: HEIMDALL_REGION_NAME
