@@ -1,5 +1,5 @@
 # PROJECT IMPORTS
-from src.domain.models.jwt.response import Jwt
+from src.domain.exceptions.exceptions import UserUniqueIdDoesNotExists
 from src.infrastructure.mongo_db.infrastructure import MongoDBInfrastructure
 
 # STANDARD IMPORTS
@@ -36,17 +36,26 @@ class UserRepository:
     @classmethod
     async def update_user_and_us_w8_confirmation(
             cls,
-            jwt_data: Jwt
+            unique_id: str,
+            w8_confirmation_request: bool
     ):
+
+        user_filter = {"unique_id": unique_id}
+        w8_confirmation_query = {
+            "$set": {
+                "external_exchange_requirements.us.w8_confirmation": w8_confirmation_request}
+        }
+
         try:
             collection = await cls.__get_collection()
 
             user_w8_confirmation_was_updated = await collection.update_one(
-                old={"unique_id":
-                    jwt_data.get_unique_id_from_jwt_payload()},
-                new={"external_exchange_requirements.us.w8_confirmation":
-                    jwt_data.get_w8_confirmation_from_jwt_payload()}
+                user_filter, w8_confirmation_query
             )
+
+            if not user_w8_confirmation_was_updated.matched_count == 1:
+                raise UserUniqueIdDoesNotExists
+
             return user_w8_confirmation_was_updated
 
         except Exception as error:

@@ -13,9 +13,10 @@ from src.services.w8_signature.service import W8DocumentService
 from src.domain.enums.status_code.enum import InternalCode
 from src.domain.exceptions.exceptions import (
     ErrorOnDecodeJwt,
-    InvalidParams,
     NotSentToPersephone,
-    TransportOnboardingError, InvalidOnboardingStep)
+    TransportOnboardingError,
+    InvalidOnboardingStep, UserUniqueIdDoesNotExists
+)
 
 
 async def update_w8_ben(
@@ -73,6 +74,15 @@ async def update_w8_ben(
             success=False,
             code=InternalCode.TRANSPORT_ON_BOARDING_ERROR,
             message="update_w8_form_confirmation::error fetching data from transport layer"
+        ).build_http_response(status=HTTPStatus.INTERNAL_SERVER_ERROR)
+        return response
+
+    except UserUniqueIdDoesNotExists as error:
+        Gladsheim.error(error=error, message=error)
+        response = ResponseModel(
+            success=False,
+            code=InternalCode.USER_WAS_NOT_FOUND,
+            message="UserRepository.update_user_and_us_w8_confirmation::unique id was not found"
         ).build_http_response(status=HTTPStatus.INTERNAL_SERVER_ERROR)
         return response
 

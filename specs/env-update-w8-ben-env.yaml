@@ -7,18 +7,12 @@ metadata:
 spec:
   builder:
     command: build
-    container:
-      name: ""
-      resources: {}
     image: nexus.sigame.com.br/fission-builder-3.8:0.0.1
   imagepullsecret: ""
   keeparchive: false
   poolsize: 3
   resources: {}
   runtime:
-    container:
-      name: ""
-      resources: {}
     image: nexus.sigame.com.br/fission-async:0.1.6
     podspec:
       containers:
@@ -34,16 +28,26 @@ spec:
               value: "http://fission.dev-lionx.com.br/onboarding/steps_br"
             - name: US_BASE_URL
               value: "http://fission.dev-lionx.com.br/onboarding/steps_us"
+            - name: PERSEPHONE_QUEUE_HOST
+              value: "172.30.10.105"
+            - name: PERSEPHONE_QUEUE_PORT
+              value: "9092"
+            - name: PERSEPHONE_TOPIC
+              value: "thebes.sphinx_persephone.topic"
             - name: PERSEPHONE_SCHEMA
               value: "user_w8_form_confirmation_us_schema"
             - name: PERSEPHONE_TOPIC_USER
               value: "sphinx-persephone.user.crud"
+            - name: PERSEPHONE_TOPIC_AUTHENTICATION
+              value: "sphinx_persephone.user.authentication"
             - name: PERSEPHONE_KAFKA_BROKERS
-              value: "cluster-kafka-bootstrap.kafka.svc.cluster.local:9092"
+              value: "172.30.10.105:9092"
             - name: HEIMDALL_REGION_NAME
               value: "sa-east-1"
             - name: HEIMDALL_BUCKET_NAME_KEY
               value: "auth-gateway-keys-dev"
+            - name: HEIMDALL_AWS_BUCKET_USERS_FILES
+              value: "dtvm-users-files-dev"
             - name: HEIMDALL_JWT_REQUIRED_FIELDS
               value: "[]"
             - name: HEIMDALL_REDIS_URL
@@ -58,6 +62,9 @@ spec:
               value: "users"
             - name: MONGO_CONNECTION_URL
               value: "mongodb://jormungandr:LIwn1In32LdowPqma@172.30.10.75:41000/?authSource=admin&replicaSet=rslionx&readPreference=secondary"
+            - name: MONGODB_JWT_COLLECTION
+              value: "jwts"
             - name: ASGI_FRAMEWORK
               value: "HYPERCORN"
+
   version: 2

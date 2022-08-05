@@ -34,7 +34,8 @@ class W8DocumentService:
         )
 
         was_updated = await UserRepository.update_user_and_us_w8_confirmation(
-            jwt_data=jwt_data
+            w8_confirmation_request=w8_confirmation_request.w8_confirmation,
+            unique_id=jwt_data.get_unique_id_from_jwt_payload()
         )
 
         if not was_updated:

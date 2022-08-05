@@ -16,8 +16,8 @@ from func.src.services.w8_signature.service import W8DocumentService
 
 get_drive_wealth_id = "125458.hagfsdsa"
 
-response_stub = (b'{"result": null, "message": "update_w8_form_confirmation::sent_to_persephone'
- b':false", "success": false, "code": 88}')
+response_stub = (b'{"result": true, "message": "The W8 Form Was Updated Successfully", "success'
+ b'": true, "code": 0}')
 
 
 @pytest.mark.asyncio
@@ -25,7 +25,7 @@ response_stub = (b'{"result": null, "message": "update_w8_form_confirmation::sen
 @patch.object(Jwt, "get_unique_id_from_jwt_payload", return_value=get_drive_wealth_id)
 @patch.object(Jwt, "get_w8_confirmation_from_jwt_payload", return_value=get_drive_wealth_id)
 @patch.object(Heimdall, "decode_payload", return_value=(decoded_jwt_stub, HeimdallStatusResponses.SUCCESS))
-@patch.object(W8DocumentService, "update_w8_form_confirmation", return_value=True)
+@patch("src.services.w8_signature.service.W8DocumentService.update_w8_form_confirmation", return_value=True)
 async def test_get_w8_ben_when_sending_right_params_then_return_the_expected(
         mock_update_w8_form_confirmation,
         mock_decode_payload,
