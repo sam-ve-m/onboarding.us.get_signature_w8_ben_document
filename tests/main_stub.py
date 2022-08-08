@@ -14,7 +14,7 @@ decoded_jwt_stub = {'created_at': 1656425421.60926,
           'unique_id': '40db7fee-6d60-4d73-824f-1bf87edc4491'}}
 
 request_body_stub = {
-    "w8_confirmation": True
+    "w8_form_confirmation": "true"
 }
 
 response_bytes_stub = (b'{"result": true, "message": "The W8 Form Was Updated Successfully", "success'
