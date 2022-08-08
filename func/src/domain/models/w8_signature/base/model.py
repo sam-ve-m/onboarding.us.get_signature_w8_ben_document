@@ -3,4 +3,4 @@ from pydantic import BaseModel
 
 
 class W8FormConfirmation(BaseModel):
-    w8_confirmation: bool
+    w8_form_confirmation: str

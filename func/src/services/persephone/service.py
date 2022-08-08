@@ -29,7 +29,7 @@ class SendToPersephone:
             topic=config("PERSEPHONE_TOPIC_USER"),
             partition=PersephoneQueue.USER_W8_CONFIRMATION_US.value,
             message=W8ConfirmationToPersephone.w8_form_confirmation_schema(
-                w8_form_confirmation=w8_confirmation_request.w8_confirmation,
+                w8_form_confirmation=w8_confirmation_request.w8_form_confirmation,
                 unique_id=jwt_data.get_unique_id_from_jwt_payload()
             ),
             schema_name="user_w8_form_confirmation_us_schema",

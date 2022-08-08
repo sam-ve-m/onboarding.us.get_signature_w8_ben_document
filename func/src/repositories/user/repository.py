@@ -37,7 +37,7 @@ class UserRepository:
     async def update_user_and_us_w8_confirmation(
             cls,
             unique_id: str,
-            w8_confirmation_request: bool
+            w8_confirmation_request: str
     ):
 
         user_filter = {"unique_id": unique_id}
