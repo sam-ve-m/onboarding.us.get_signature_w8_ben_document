@@ -29,7 +29,3 @@ class HttpErrorGettingOnboardingSteps(Exception):
 
 class NotSentToPersephone(Exception):
     msg = "common.process_issue::W8DocumentService::update_w8_form_confirmation::sent_to_persephone:false"
-
-
-class InternalServerError(Exception):
-    pass
