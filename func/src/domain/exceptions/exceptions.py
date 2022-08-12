@@ -15,6 +15,10 @@ class UserUniqueIdDoesNotExists(Exception):
     pass
 
 
+class ErrorLoggingOnIara(Exception):
+    msg = "Jormungandr-Onboarding::error logging on Iara"
+
+
 class W8DocumentWasNotUpdated(Exception):
     pass
 

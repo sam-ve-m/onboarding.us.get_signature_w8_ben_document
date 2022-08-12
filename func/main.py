@@ -15,7 +15,7 @@ from src.domain.exceptions.exceptions import (
     ErrorOnDecodeJwt,
     NotSentToPersephone,
     TransportOnboardingError,
-    InvalidOnboardingStep, UserUniqueIdDoesNotExists
+    InvalidOnboardingStep, UserUniqueIdDoesNotExists, ErrorLoggingOnIara
 )
 
 
@@ -83,6 +83,16 @@ async def update_w8_ben(
             success=False,
             code=InternalCode.USER_WAS_NOT_FOUND,
             message="UserRepository.update_user_and_us_w8_confirmation::unique id was not found"
+        ).build_http_response(status=HTTPStatus.INTERNAL_SERVER_ERROR)
+        return response
+
+    except ErrorLoggingOnIara as ex:
+        Gladsheim.error(error=ex)
+        response = ResponseModel(
+            result=False,
+            success=False,
+            code=InternalCode.ERROR_LOGGIN_ON_IARA,
+            message="Error Logging On Iara"
         ).build_http_response(status=HTTPStatus.INTERNAL_SERVER_ERROR)
         return response
 

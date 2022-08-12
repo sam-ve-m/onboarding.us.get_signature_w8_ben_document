@@ -56,7 +56,7 @@ class UserRepository:
             if not user_w8_confirmation_was_updated.matched_count == 1:
                 raise UserUniqueIdDoesNotExists
 
-            return user_w8_confirmation_was_updated
+            return bool(user_w8_confirmation_was_updated)
 
         except Exception as error:
             Gladsheim.error(error=error)

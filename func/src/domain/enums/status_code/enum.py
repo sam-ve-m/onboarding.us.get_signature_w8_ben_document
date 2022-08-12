@@ -12,6 +12,7 @@ class InternalCode(IntEnum):
     USER_WAS_NOT_FOUND = 69
     TRANSPORT_ON_BOARDING_ERROR = 88
     NOT_DATE_TIME = 99
+    ERROR_LOGGIN_ON_IARA = 57
 
     def __repr__(self):
         return self.value

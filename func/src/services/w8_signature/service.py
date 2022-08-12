@@ -6,6 +6,7 @@ from src.domain.exceptions.exceptions import W8DocumentWasNotUpdated
 from src.domain.models.jwt.response import Jwt
 from src.domain.models.w8_signature.base.model import W8FormConfirmation
 from src.repositories.user.repository import UserRepository
+from src.services.iara_client.service import SendToIara
 from src.services.persephone.service import SendToPersephone
 from src.transport.onboarding_steps_br.transport import ValidateOnboardingStepsBr
 from src.transport.onboarding_steps_us.transport import ValidateOnboardingStepsUS
@@ -42,5 +43,9 @@ class W8DocumentService:
             raise W8DocumentWasNotUpdated(
                 "common.unable_to_process::W8DocumentService::update_w8_form_confirmation::was_updated::false"
             )
+
+        await SendToIara.register_user_w8_signature_log_on_persephone(
+            jwt_data=jwt_data
+        )
 
         return bool(was_updated)
