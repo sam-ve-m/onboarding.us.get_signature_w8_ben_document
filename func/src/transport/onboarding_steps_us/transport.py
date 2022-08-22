@@ -23,13 +23,11 @@ class ValidateOnboardingStepsUS:
             async with aiohttp.ClientSession() as session:
                 async with session.get(cls.steps_us_url, headers=headers) as response:
                     step_response = await response.json()
-
-                    step_is_valid = await OnboardingStepsUsValidator.onboarding_us_step_validator(
-                        step_response=step_response
-                    )
-
-                    return step_is_valid
-
         except Exception as error:
             Gladsheim.error(error=error)
             raise TransportOnboardingError
+
+        step_is_valid = await OnboardingStepsUsValidator.onboarding_us_step_validator(
+            step_response=step_response
+        )
+        return step_is_valid
