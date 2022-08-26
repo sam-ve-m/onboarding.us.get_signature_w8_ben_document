@@ -29,13 +29,13 @@ spec:
             - name: US_BASE_URL
               value: "http://router.fission.svc.cluster.local/onboarding/steps_us"
             - name: PERSEPHONE_TOPIC
-              value: "thebes.sphinx_persephone.topic"
+              value: "thebes.sphinx-persephone.topic"
             - name: PERSEPHONE_SCHEMA
               value: "user_w8_form_confirmation_us_schema"
             - name: PERSEPHONE_TOPIC_USER
               value: "sphinx-persephone.user.crud"
             - name: PERSEPHONE_TOPIC_AUTHENTICATION
-              value: "sphinx_persephone.user.authentication"
+              value: "sphinx-persephone.user.authentication"
             - name: PERSEPHONE_KAFKA_BROKERS
               value: "172.30.8.254:9094"
             - name: HEIMDALL_REGION_NAME
