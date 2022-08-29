@@ -13,11 +13,10 @@ from tests.main_stub import request_body_stub, decoded_jwt_stub
 from func.main import update_w8_ben
 from func.src.services.w8_signature.service import W8DocumentService
 
-
 get_drive_wealth_id = "125458.hagfsdsa"
 
 response_stub = (b'{"result": true, "message": "The W8 Form Was Updated Successfully", "success'
- b'": true, "code": 0}')
+                 b'": true, "code": 0}')
 
 
 @pytest.mark.asyncio
@@ -33,7 +32,6 @@ async def test_get_w8_ben_when_sending_right_params_then_return_the_expected(
         mock_get_unique_id_from_jwt_payload,
         mock_decode_and_validate_jwt
 ):
-
     app = Flask(__name__)
     with app.test_request_context(
             json=request_body_stub,
