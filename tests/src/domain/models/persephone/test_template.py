@@ -2,7 +2,7 @@
 import pytest
 
 # PROJECT IMPORTS
-from src.domain.persephone.template import W8ConfirmationToPersephone
+from func.src.domain.persephone.template import W8ConfirmationToPersephone
 
 
 response_stub = {

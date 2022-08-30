@@ -2,7 +2,7 @@
 import pytest
 
 # PROJECT IMPORTS
-from src.domain.models.iara_message.model import IaraMessage
+from func.src.domain.models.iara_message.model import IaraMessage
 
 
 response_stub = {

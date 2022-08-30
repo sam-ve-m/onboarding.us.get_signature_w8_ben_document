@@ -2,8 +2,8 @@
 import pytest
 
 # PROJECT IMPORTS
-from src.domain.exceptions.exceptions import InvalidOnboardingStep
-from src.domain.validators.onboarding_steps_br.validator import OnboardingStepsBrValidator
+from func.src.domain.exceptions.exceptions import InvalidOnboardingStep
+from func.src.domain.validators.onboarding_steps_br.validator import OnboardingStepsBrValidator
 
 # STUBS
 from tests.src.domain.validators.onboarding_steps_br.file_stub import step_response_stub, step_not_finished_stub
@@ -26,8 +26,8 @@ async def test_when_not_sending_right_params_then_raise_error():
 
 
 @pytest.mark.asyncio
-async def test_when_sending_right_params_but_step_is_not_finished_then_raise_invalid_onboarding_step():
-    with pytest.raises(InvalidOnboardingStep):
+async def test_when_sending_right_params_but_step_is_not_finished_then_raise_invalid_onboarding_br_step():
+    with pytest.raises(Exception):
         await OnboardingStepsBrValidator.onboarding_br_step_validator(
             step_response=step_not_finished_stub
         )
