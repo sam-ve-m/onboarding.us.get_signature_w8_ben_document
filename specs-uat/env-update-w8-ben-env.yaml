@@ -13,7 +13,7 @@ spec:
   poolsize: 3
   resources: {}
   runtime:
-    image: nexus.sigame.com.br/fission-async:0.1.6
+    image: nexus.sigame.com.br/fission-async:0.1.7
     podspec:
       containers:
         - name: update-w8-ben-env
@@ -29,11 +29,11 @@ spec:
             - name: PERSEPHONE_QUEUE_PORT
               value: "9092"
             - name: PERSEPHONE_TOPIC
-              value: "thebes.sphinx_persephone.topic"
+              value: "thebes.sphinx-persephone.topic"
             - name: PERSEPHONE_TOPIC_USER
               value: "sphinx-persephone.user.crud"
             - name: PERSEPHONE_TOPIC_AUTHENTICATION
-              value: "sphinx_persephone.user.authentication"
+              value: "sphinx-persephone.user.authentication"
             - name: PERSEPHONE_KAFKA_BROKERS
               value: "172.30.19.32:9092"
             - name: HEIMDALL_FILE_BUCKET_NAME
