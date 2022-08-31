@@ -17,7 +17,7 @@ UserService.update_w8_form_confirmation
 ##### BODY REQUEST
 ```
 {
-  "w8_form_confirmation": "true"
+  "w8_form_confirmation": true
     }
 ```
 &nbsp;

@@ -1,15 +1,9 @@
-# STANDARD IMPORTS
 from http import HTTPStatus
-from flask import request, Response, Request
 
-# THIRD PARTY IMPORTS
 from etria_logger import Gladsheim
+from flask import request, Response, Request
+from pydantic import ValidationError
 
-# PROJECT IMPORTS
-from src.domain.models.jwt.response import Jwt
-from src.domain.models.response.model import ResponseModel
-from src.domain.models.w8_signature.base.model import W8FormConfirmation
-from src.services.w8_signature.service import W8DocumentService
 from src.domain.enums.status_code.enum import InternalCode
 from src.domain.exceptions.exceptions import (
     ErrorOnDecodeJwt,
@@ -17,6 +11,10 @@ from src.domain.exceptions.exceptions import (
     TransportOnboardingError,
     InvalidOnboardingStep, UserUniqueIdDoesNotExists, ErrorLoggingOnIara
 )
+from src.domain.models.jwt.response import Jwt
+from src.domain.models.response.model import ResponseModel
+from src.domain.models.w8_signature.base.model import W8FormConfirmation
+from src.services.w8_signature.service import W8DocumentService
 
 
 async def update_w8_ben(
@@ -94,6 +92,15 @@ async def update_w8_ben(
             code=InternalCode.ERROR_LOGGIN_ON_IARA,
             message="Error Logging On Iara"
         ).build_http_response(status=HTTPStatus.INTERNAL_SERVER_ERROR)
+        return response
+
+    except ValidationError as ex:
+        Gladsheim.error(error=ex)
+        response = ResponseModel(
+            success=False,
+            code=InternalCode.INVALID_PARAMS,
+            message="Invalid request"
+        ).build_http_response(status=HTTPStatus.BAD_REQUEST)
         return response
 
     except TypeError as ex:
