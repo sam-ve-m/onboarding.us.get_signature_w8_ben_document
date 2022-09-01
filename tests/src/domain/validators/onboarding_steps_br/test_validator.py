@@ -3,10 +3,15 @@ import pytest
 
 # PROJECT IMPORTS
 from func.src.domain.exceptions.exceptions import InvalidOnboardingStep
-from func.src.domain.validators.onboarding_steps_br.validator import OnboardingStepsBrValidator
+from func.src.domain.validators.onboarding_steps_br.validator import (
+    OnboardingStepsBrValidator,
+)
 
 # STUBS
-from tests.src.domain.validators.onboarding_steps_br.file_stub import step_response_stub, step_not_finished_stub
+from tests.src.domain.validators.onboarding_steps_br.file_stub import (
+    step_response_stub,
+    step_not_finished_stub,
+)
 
 
 @pytest.mark.asyncio

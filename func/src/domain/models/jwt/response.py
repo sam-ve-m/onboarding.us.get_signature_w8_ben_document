@@ -8,7 +8,9 @@ class Jwt:
         self.__jwt = jwt
 
     async def __decode_and_validate_jwt(self):
-        jwt_content, heimdall_status_response = await Heimdall.decode_payload(jwt=self.__jwt)
+        jwt_content, heimdall_status_response = await Heimdall.decode_payload(
+            jwt=self.__jwt
+        )
         if HeimdallStatusResponses.SUCCESS == heimdall_status_response:
             self.__jwt_payload = jwt_content.get("decoded_jwt")
             return self.__jwt_payload

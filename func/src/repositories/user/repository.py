@@ -35,15 +35,14 @@ class UserRepository:
 
     @classmethod
     async def update_user_and_us_w8_confirmation(
-            cls,
-            unique_id: str,
-            w8_confirmation_request: str
+        cls, unique_id: str, w8_confirmation_request: str
     ):
 
         user_filter = {"unique_id": unique_id}
         w8_confirmation_query = {
             "$set": {
-                "external_exchange_requirements.us.w8_confirmation": w8_confirmation_request}
+                "external_exchange_requirements.us.w8_confirmation": w8_confirmation_request
+            }
         }
 
         try:

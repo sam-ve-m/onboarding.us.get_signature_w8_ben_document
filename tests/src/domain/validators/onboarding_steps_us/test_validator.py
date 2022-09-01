@@ -3,20 +3,14 @@ import pytest
 
 # PROJECT IMPORTS
 from func.src.domain.exceptions.exceptions import InvalidOnboardingStep
-from func.src.domain.validators.onboarding_steps_us.validator import OnboardingStepsUsValidator
+from func.src.domain.validators.onboarding_steps_us.validator import (
+    OnboardingStepsUsValidator,
+)
 
 
-step_response_stub = {
-    "result": {
-        "current_step": "w8_confirmation"
-    }
-}
+step_response_stub = {"result": {"current_step": "w8_confirmation"}}
 
-step_not_finished_stub = {
-    "result": {
-        "current_step": "nothing yet"
-    }
-}
+step_not_finished_stub = {"result": {"current_step": "nothing yet"}}
 
 
 @pytest.mark.asyncio
