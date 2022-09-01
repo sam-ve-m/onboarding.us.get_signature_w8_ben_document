@@ -13,11 +13,13 @@ spec:
   poolsize: 3
   resources: {}
   runtime:
-    image: nexus.sigame.com.br/fission-async:0.1.6
+    image: nexus.sigame.com.br/fission-async:0.1.7
     podspec:
       containers:
         - name: update-w8-ben-env
           env:
+            - name: ASGI_FRAMEWORK
+              value: "HYPERCORN"
             - name: HEIMDALL_FILE_BUCKET_NAME
               value: "heimdall_rsa"
             - name: HEIMDALL_AWS_ACCESS_KEY_ID
@@ -60,7 +62,7 @@ spec:
               value: "mongodb://jormungandr:LIwn1In32LdowPqma@172.30.10.75:41000/?authSource=admin&replicaSet=rslionx&readPreference=secondary"
             - name: MONGODB_JWT_COLLECTION
               value: "jwts"
-            - name: ASGI_FRAMEWORK
-              value: "HYPERCORN"
+            - name: IARA_KAFKA_BROKERS
+              value: "172.30.8.254:9094"
 
   version: 2

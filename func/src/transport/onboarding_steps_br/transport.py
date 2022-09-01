@@ -9,7 +9,9 @@ from etria_logger import Gladsheim
 
 # PROJECT IMPORTS
 from src.domain.models.jwt.response import Jwt
-from src.domain.validators.onboarding_steps_br.validator import OnboardingStepsBrValidator
+from src.domain.validators.onboarding_steps_br.validator import (
+    OnboardingStepsBrValidator,
+)
 
 
 class ValidateOnboardingStepsBr:
@@ -18,7 +20,7 @@ class ValidateOnboardingStepsBr:
 
     @classmethod
     async def validate_onboarding_steps_br(cls, jwt_data: Jwt):
-        headers = {'x-thebes-answer': "{}".format(jwt_data.get_jwt())}
+        headers = {"x-thebes-answer": "{}".format(jwt_data.get_jwt())}
 
         try:
             async with aiohttp.ClientSession() as session:

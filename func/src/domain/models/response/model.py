@@ -11,11 +11,8 @@ from src.domain.enums.status_code.enum import InternalCode
 
 class ResponseModel:
     def __init__(
-            self,
-            success: bool,
-            code: InternalCode,
-            message: str = None,
-            result: any = None):
+        self, success: bool, code: InternalCode, message: str = None, result: any = None
+    ):
 
         self.success = success
         self.code = code
@@ -31,14 +28,14 @@ class ResponseModel:
                 "success": self.success,
                 "code": self.code,
             },
-            default=Sindri.resolver
+            default=Sindri.resolver,
         )
 
         self.response = response_model
         return response_model
 
     def build_http_response(
-            self, status: int, mimetype: str = "application/json"
+        self, status: int, mimetype: str = "application/json"
     ) -> Response:
         http_response = Response(
             self.response,

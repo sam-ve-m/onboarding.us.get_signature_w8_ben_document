@@ -13,7 +13,7 @@ spec:
   poolsize: 3
   resources: {}
   runtime:
-    image: nexus.sigame.com.br/fission-async:0.1.6
+    image: nexus.sigame.com.br/fission-async:0.1.7
     podspec:
       containers:
         - name: update-w8-ben-env
