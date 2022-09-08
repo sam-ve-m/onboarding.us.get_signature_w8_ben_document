@@ -44,7 +44,7 @@ async def update_w8_ben(
         response = ResponseModel(
             success=False,
             code=InternalCode.INVALID_ONBOARDING_STEPS,
-            message="Invalid Onboarding Steps",
+            message="User in invalid onboarding step",
         ).build_http_response(status=HTTPStatus.UNAUTHORIZED)
         return response
 
