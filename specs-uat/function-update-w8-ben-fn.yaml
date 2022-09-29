@@ -51,5 +51,5 @@ spec:
     packageref:
       name: update-w8-ben-fn-82c76318-d4bf-437c-b5ff-ed0504162973
       namespace: default
-  requestsPerPod: 1
+  requestsPerPod: 10000
   resources: {}
