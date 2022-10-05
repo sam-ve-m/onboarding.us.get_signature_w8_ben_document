@@ -14,10 +14,10 @@ spec:
   ingressconfig:
     annotations: null
     host: '*'
-    path: /update-w8-ben
+    path: /onboarding/update_w8_ben
     tls: ""
   method: ""
   methods:
   - PUT
   prefix: ""
-  relativeurl: /update-w8-ben
+  relativeurl: /onboarding/update_w8_ben
