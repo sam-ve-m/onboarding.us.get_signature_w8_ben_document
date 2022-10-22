@@ -38,7 +38,7 @@ spec:
             - name: PERSEPHONE_TOPIC_AUTHENTICATION
               value: "sphinx-persephone.user.authentication"
             - name: PERSEPHONE_KAFKA_BROKERS
-              value: "172.30.8.254:9094"
+              value: "cluster-kafka-bootstrap.kafka.svc.cluster.local:9092"
             - name: HEIMDALL_REGION_NAME
               value: "sa-east-1"
             - name: HEIMDALL_BUCKET_NAME_KEY
@@ -62,6 +62,6 @@ spec:
             - name: MONGODB_JWT_COLLECTION
               value: "jwts"
             - name: IARA_KAFKA_BROKERS
-              value: "172.30.8.254:9094"
+              value: "cluster-kafka-bootstrap.kafka.svc.cluster.local:9092"
 
   version: 3
