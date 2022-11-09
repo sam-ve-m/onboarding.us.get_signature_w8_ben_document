@@ -5,6 +5,6 @@ heimdall-client==2.3.3
 python-decouple==3.6
 etria_logger==0.1.10
 aioboto3==9.6.0
-mepho==0.2.1
+mepho==0.2.2
 persephone-client==1.6.1
 etria-logger==0.1.10
