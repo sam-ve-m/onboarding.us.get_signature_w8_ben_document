@@ -12,7 +12,7 @@ spec:
   keeparchive: false
   resources: {}
   runtime:
-    image: nexus.sigame.com.br/fission-async:0.1.7
+    image: nexus.sigame.com.br/fission-async:0.1.10
     podspec:
       containers:
         - name: update-w8-ben-env

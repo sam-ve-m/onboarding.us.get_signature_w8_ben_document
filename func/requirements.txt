@@ -1,10 +1,9 @@
 --extra-index-url https://backend:dc222fa6-452f-4253-a2fd-a52e7ba2e7e9@nexus.sigame.com.br/repository/pypi/simple
+redis==4.3.4
 motor==3.0.0
 flask==2.1.2
 heimdall-client==2.3.3
 python-decouple==3.6
-etria_logger==0.1.10
+etria_logger==0.1.11
 aioboto3==9.6.0
-mepho==0.2.2
-persephone-client==1.6.1
-etria-logger==0.1.10
+persephone-client==2.1.0
