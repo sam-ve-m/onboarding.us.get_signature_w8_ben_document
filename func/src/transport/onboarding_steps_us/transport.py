@@ -27,7 +27,7 @@ class ValidateOnboardingStepsUS:
                     step_response = await response.json()
         except Exception as error:
             Gladsheim.error(error=error)
-            raise TransportOnboardingError
+            raise TransportOnboardingError()
 
         step_is_valid = await OnboardingStepsUsValidator.onboarding_us_step_validator(
             step_response=step_response

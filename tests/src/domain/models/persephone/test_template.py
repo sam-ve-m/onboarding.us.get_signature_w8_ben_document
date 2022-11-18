@@ -1,16 +1,20 @@
-# STANDARD IMPORTS
 import pytest
 
-# PROJECT IMPORTS
 from func.src.domain.persephone.template import W8ConfirmationToPersephone
+from src.domain.models.device_info.model import DeviceInfo
 
-
-response_stub = {"w8_form_confirmation": "True", "unique_id": "lalalala"}
+response_stub = {
+    "w8_form_confirmation": "True",
+    "unique_id": "lalalala",
+    "device_id": "",
+    "device_info": {"precision": 1},
+}
+stub_device_info = DeviceInfo({"precision": 1}, "")
 
 
 def test_when_sending_right_params_to_w8_form_confirmation_schema_then_return_the_expected():
     response = W8ConfirmationToPersephone.w8_form_confirmation_schema(
-        w8_form_confirmation="True", unique_id="lalalala"
+        w8_form_confirmation="True", unique_id="lalalala", device_info=stub_device_info
     )
     assert response == response_stub
     assert isinstance(response, dict)

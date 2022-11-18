@@ -52,8 +52,8 @@ class UserRepository:
                 user_filter, w8_confirmation_query
             )
 
-            if not user_w8_confirmation_was_updated.matched_count == 1:
-                raise UserUniqueIdDoesNotExists
+            if user_w8_confirmation_was_updated.matched_count == 0:
+                raise UserUniqueIdDoesNotExists()
 
             return bool(user_w8_confirmation_was_updated)
 
