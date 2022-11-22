@@ -31,3 +31,11 @@ class HttpErrorGettingOnboardingSteps(Exception):
 
 class NotSentToPersephone(Exception):
     msg = "common.process_issue::W8DocumentService::update_w8_form_confirmation::sent_to_persephone:false"
+
+
+class DeviceInfoRequestFailed(Exception):
+    msg = "Error trying to get device info"
+
+
+class DeviceInfoNotSupplied(Exception):
+    msg = "Device info not supplied"

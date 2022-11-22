@@ -11,25 +11,33 @@ from src.domain.exceptions.exceptions import (
     TransportOnboardingError,
     InvalidOnboardingStep,
     UserUniqueIdDoesNotExists,
+    DeviceInfoRequestFailed,
+    DeviceInfoNotSupplied,
 )
 from src.domain.models.jwt.response import Jwt
 from src.domain.models.response.model import ResponseModel
 from src.domain.models.w8_signature.base.model import W8FormConfirmation
 from src.services.w8_signature.service import W8DocumentService
+from src.transport.device_info.transport import DeviceSecurity
 
 
 async def update_w8_ben(
-    request_body: Request = request,
+    request: Request = request,
 ) -> Response:
-    thebes_answer = request_body.headers.get("x-thebes-answer")
-
     try:
-        jwt_data = Jwt(jwt=thebes_answer)
+        x_thebes_answer = request.headers.get("x-thebes-answer")
+        x_device_info = request.headers.get("x-device-info")
+        request_body = request.json
+
+        jwt_data = Jwt(jwt=x_thebes_answer)
         await jwt_data()
-        w8_confirmation_request = W8FormConfirmation(**request_body.json)
+        device_info = await DeviceSecurity.get_device_info(x_device_info)
+        w8_confirmation_request = W8FormConfirmation(**request_body)
 
         service_response = await W8DocumentService.update_w8_form_confirmation(
-            jwt_data=jwt_data, w8_confirmation_request=w8_confirmation_request
+            jwt_data=jwt_data,
+            w8_confirmation_request=w8_confirmation_request,
+            device_info=device_info,
         )
         response = ResponseModel(
             success=True,
@@ -43,7 +51,7 @@ async def update_w8_ben(
         Gladsheim.error(error=error, message=error.msg)
         response = ResponseModel(
             success=False,
-            code=InternalCode.INVALID_ONBOARDING_STEPS,
+            code=InternalCode.INVALID_PARAMS,
             message="User in invalid onboarding step",
         ).build_http_response(status=HTTPStatus.UNAUTHORIZED)
         return response
@@ -74,7 +82,7 @@ async def update_w8_ben(
         return response
 
     except UserUniqueIdDoesNotExists as error:
-        Gladsheim.error(error=error, message=error)
+        Gladsheim.error(error=error, message="unique id does not exist")
         response = ResponseModel(
             success=False,
             code=InternalCode.USER_WAS_NOT_FOUND,
@@ -82,15 +90,33 @@ async def update_w8_ben(
         ).build_http_response(status=HTTPStatus.INTERNAL_SERVER_ERROR)
         return response
 
-    except ValidationError as ex:
-        Gladsheim.error(error=ex)
+    except ValidationError as error:
+        Gladsheim.error(error=error)
         response = ResponseModel(
             success=False, code=InternalCode.INVALID_PARAMS, message="Invalid request"
         ).build_http_response(status=HTTPStatus.BAD_REQUEST)
         return response
 
-    except TypeError as ex:
-        Gladsheim.error(error=ex)
+    except DeviceInfoRequestFailed as error:
+        Gladsheim.error(error=error, message=error.msg)
+        response = ResponseModel(
+            success=False,
+            code=InternalCode.INTERNAL_SERVER_ERROR,
+            message="Error trying to get device info",
+        ).build_http_response(status=HTTPStatus.INTERNAL_SERVER_ERROR)
+        return response
+
+    except DeviceInfoNotSupplied as error:
+        Gladsheim.error(error=error, message=error.msg)
+        response = ResponseModel(
+            success=False,
+            code=InternalCode.INVALID_PARAMS,
+            message="Device info not supplied",
+        ).build_http_response(status=HTTPStatus.BAD_REQUEST)
+        return response
+
+    except TypeError as error:
+        Gladsheim.error(error=error)
         response = ResponseModel(
             success=False,
             code=InternalCode.NOT_DATE_TIME,
@@ -98,8 +124,8 @@ async def update_w8_ben(
         ).build_http_response(status=HTTPStatus.INTERNAL_SERVER_ERROR)
         return response
 
-    except Exception as ex:
-        Gladsheim.error(error=ex)
+    except Exception as error:
+        Gladsheim.error(error=error)
         response = ResponseModel(
             success=False,
             code=InternalCode.INTERNAL_SERVER_ERROR,

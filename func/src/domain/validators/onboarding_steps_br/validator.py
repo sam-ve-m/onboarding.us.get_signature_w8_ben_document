@@ -13,6 +13,6 @@ class OnboardingStepsBrValidator:
         step_is_valid = response in cls.expected_step_br
 
         if not step_is_valid:
-            raise InvalidOnboardingStep
+            raise InvalidOnboardingStep()
 
         return step_is_valid
