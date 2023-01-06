@@ -1,5 +1,5 @@
 # PROJECT IMPORTS
-from src.domain.exceptions.exceptions import InvalidOnboardingStep
+from func.src.domain.exceptions.exceptions import InvalidOnboardingStep
 
 
 class OnboardingStepsBrValidator:

@@ -9,3 +9,9 @@ flask==2.1.2
 python-decouple==3.6
 aioboto3==9.6.0
 httpx==0.23.0
+
+
+uvloop==0.17.0
+uvicorn==0.20.0
+asgiref==3.5.2
+hypercorn==0.13.2

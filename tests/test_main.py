@@ -8,14 +8,14 @@ from heimdall_client import Heimdall, HeimdallStatusResponses
 from werkzeug.test import Headers
 
 with patch.object(Config, "__call__"):
-    from main import update_w8_ben
-    from src.domain.models.jwt.response import Jwt
-    from src.services.w8_signature.service import W8DocumentService
-    from src.domain.exceptions.exceptions import (
+    from func.main import update_w8_ben
+    from func.src.domain.models.jwt.response import Jwt
+    from func.src.services.w8_signature.service import W8DocumentService
+    from func.src.domain.exceptions.exceptions import (
         DeviceInfoNotSupplied,
         DeviceInfoRequestFailed,
     )
-    from src.transport.device_info.transport import DeviceSecurity
+    from func.src.transport.device_info.transport import DeviceSecurity
     from tests.main_stub import request_body_stub, decoded_jwt_stub
 
 get_drive_wealth_id = "125458.hagfsdsa"
@@ -38,7 +38,7 @@ response_stub = (
     return_value=(decoded_jwt_stub, HeimdallStatusResponses.SUCCESS),
 )
 @patch(
-    "src.services.w8_signature.service.W8DocumentService.update_w8_form_confirmation",
+    "func.src.services.w8_signature.service.W8DocumentService.update_w8_form_confirmation",
     return_value=True,
 )
 @patch.object(DeviceSecurity, "get_device_info")

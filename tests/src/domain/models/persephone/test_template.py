@@ -1,7 +1,7 @@
 import pytest
 
 from func.src.domain.persephone.template import W8ConfirmationToPersephone
-from src.domain.models.device_info.model import DeviceInfo
+from func.src.domain.models.device_info.model import DeviceInfo
 
 response_stub = {
     "w8_form_confirmation": "True",

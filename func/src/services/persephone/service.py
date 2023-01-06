@@ -2,12 +2,12 @@ from decouple import config
 from etria_logger import Gladsheim
 from persephone_client import Persephone
 
-from src.domain.exceptions.exceptions import NotSentToPersephone
-from src.domain.models.device_info.model import DeviceInfo
-from src.domain.models.jwt.response import Jwt
-from src.domain.models.w8_signature.base.model import W8FormConfirmation
-from src.domain.persephone.template import W8ConfirmationToPersephone
-from src.domain.persephone_queue.persephone_queue import PersephoneQueue
+from func.src.domain.exceptions.exceptions import NotSentToPersephone
+from func.src.domain.models.device_info.model import DeviceInfo
+from func.src.domain.models.jwt.response import Jwt
+from func.src.domain.models.w8_signature.base.model import W8FormConfirmation
+from func.src.domain.persephone.template import W8ConfirmationToPersephone
+from func.src.domain.persephone_queue.persephone_queue import PersephoneQueue
 
 
 class SendToPersephone:

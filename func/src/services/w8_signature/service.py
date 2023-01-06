@@ -1,13 +1,13 @@
 import asyncio
 
-from src.domain.exceptions.exceptions import W8DocumentWasNotUpdated
-from src.domain.models.device_info.model import DeviceInfo
-from src.domain.models.jwt.response import Jwt
-from src.domain.models.w8_signature.base.model import W8FormConfirmation
-from src.repositories.user.repository import UserRepository
-from src.services.persephone.service import SendToPersephone
-from src.transport.onboarding_steps_br.transport import ValidateOnboardingStepsBr
-from src.transport.onboarding_steps_us.transport import ValidateOnboardingStepsUS
+from func.src.domain.exceptions.exceptions import W8DocumentWasNotUpdated
+from func.src.domain.models.device_info.model import DeviceInfo
+from func.src.domain.models.jwt.response import Jwt
+from func.src.domain.models.w8_signature.base.model import W8FormConfirmation
+from func.src.repositories.user.repository import UserRepository
+from func.src.services.persephone.service import SendToPersephone
+from func.src.transport.onboarding_steps_br.transport import ValidateOnboardingStepsBr
+from func.src.transport.onboarding_steps_us.transport import ValidateOnboardingStepsUS
 
 
 class W8DocumentService:

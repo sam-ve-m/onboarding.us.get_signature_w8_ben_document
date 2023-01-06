@@ -4,12 +4,12 @@ import aiohttp
 # THIRD PART IMPORTS
 from decouple import config
 
-from src.domain.exceptions.exceptions import TransportOnboardingError
+from func.src.domain.exceptions.exceptions import TransportOnboardingError
 from etria_logger import Gladsheim
 
 # PROJECT IMPORTS
-from src.domain.models.jwt.response import Jwt
-from src.domain.validators.onboarding_steps_us.validator import (
+from func.src.domain.models.jwt.response import Jwt
+from func.src.domain.validators.onboarding_steps_us.validator import (
     OnboardingStepsUsValidator,
 )
 
