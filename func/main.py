@@ -4,8 +4,8 @@ from etria_logger import Gladsheim
 from flask import request, Response, Request
 from pydantic import ValidationError
 
-from src.domain.enums.status_code.enum import InternalCode
-from src.domain.exceptions.exceptions import (
+from func.src.domain.enums.status_code.enum import InternalCode
+from func.src.domain.exceptions.exceptions import (
     ErrorOnDecodeJwt,
     NotSentToPersephone,
     TransportOnboardingError,
@@ -14,11 +14,11 @@ from src.domain.exceptions.exceptions import (
     DeviceInfoRequestFailed,
     DeviceInfoNotSupplied,
 )
-from src.domain.models.jwt.response import Jwt
-from src.domain.models.response.model import ResponseModel
-from src.domain.models.w8_signature.base.model import W8FormConfirmation
-from src.services.w8_signature.service import W8DocumentService
-from src.transport.device_info.transport import DeviceSecurity
+from func.src.domain.models.jwt.response import Jwt
+from func.src.domain.models.response.model import ResponseModel
+from func.src.domain.models.w8_signature.base.model import W8FormConfirmation
+from func.src.services.w8_signature.service import W8DocumentService
+from func.src.transport.device_info.transport import DeviceSecurity
 
 
 async def update_w8_ben(

@@ -1,6 +1,4 @@
-#!/bin/bash
-
 fission spec init
-fission env create --spec --name update-w8-ben-env --image nexus.sigame.com.br/fission-async:0.1.7 --builder nexus.sigame.com.br/fission-builder-3.8:0.0.1
-fission fn create --spec --name update-w8-ben-fn --env update-w8-ben-env --src "./func/*" --entrypoint main.update_w8_ben --executortype newdeploy --maxscale 1
-fission route create --spec --name update-w8-ben-rt --method PUT --url /onboarding/update_w8_ben --function update-w8-ben-fn
+fission env create --spec --name onb-us-sign-w8-env --image nexus.sigame.com.br/fission-onboarding-us-sign-w8-ben:0.1.0 --poolsize 0 --version 3 --imagepullsecret "nexus-v3" --spec
+fission fn create --spec --name onb-us-sign-w8-fn --env onb-us-sign-w8-env --code fission.py --targetcpu 80 --executortype newdeploy --maxscale 3 --requestsperpod 10000 --spec
+fission route create --spec --name onb-us-sign-w8-rt --method PUT --url /onboarding/update_w8_ben --function onb-us-sign-w8-fn

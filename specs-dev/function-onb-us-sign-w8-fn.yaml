@@ -1,35 +1,35 @@
 include:
-- ./func/*
+- fission.py
 kind: ArchiveUploadSpec
-name: func-qKV1
+name: fission-py-uluT
 
 ---
 apiVersion: fission.io/v1
 kind: Package
 metadata:
   creationTimestamp: null
-  name: update-w8-ben-fn-15bd0402-af65-45c7-91b3-37eda98eeaf0
+  name: onb-us-sign-w8-fn-db0d273d-32ab-47be-a625-bfdb80dffe51
   namespace: default
 spec:
   deployment:
     checksum: {}
+    type: url
+    url: archive://fission-py-uluT
   environment:
-    name: update-w8-ben-env
+    name: onb-us-sign-w8-env
     namespace: default
   source:
     checksum: {}
-    type: url
-    url: archive://func-qKV1
 status:
-  buildstatus: pending
-  lastUpdateTimestamp: "2022-07-14T00:48:22Z"
+  buildstatus: none
+  lastUpdateTimestamp: "2023-01-06T12:31:14Z"
 
 ---
 apiVersion: fission.io/v1
 kind: Function
 metadata:
   creationTimestamp: null
-  name: update-w8-ben-fn
+  name: onb-us-sign-w8-fn
   namespace: default
 spec:
   InvokeStrategy:
@@ -38,18 +38,24 @@ spec:
       MaxScale: 3
       MinScale: 1
       SpecializationTimeout: 120
-      TargetCPUPercent: 80
+      TargetCPUPercent: 0
+      hpaMetrics:
+      - resource:
+          name: cpu
+          target:
+            averageUtilization: 80
+            type: Utilization
+        type: Resource
     StrategyType: execution
   concurrency: 500
   environment:
-    name: update-w8-ben-env
+    name: onb-us-sign-w8-env
     namespace: default
   functionTimeout: 60
   idletimeout: 120
   package:
-    functionName: main.update_w8_ben
     packageref:
-      name: update-w8-ben-fn-15bd0402-af65-45c7-91b3-37eda98eeaf0
+      name: onb-us-sign-w8-fn-db0d273d-32ab-47be-a625-bfdb80dffe51
       namespace: default
   requestsPerPod: 10000
   resources: {}

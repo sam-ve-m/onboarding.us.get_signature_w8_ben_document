@@ -1,6 +1,6 @@
 # PROJECT IMPORTS
-from src.domain.exceptions.exceptions import UserUniqueIdDoesNotExists
-from src.infrastructure.mongo_db.infrastructure import MongoDBInfrastructure
+from func.src.domain.exceptions.exceptions import UserUniqueIdDoesNotExists
+from func.src.infrastructure.mongo_db.infrastructure import MongoDBInfrastructure
 
 # STANDARD IMPORTS
 from decouple import config

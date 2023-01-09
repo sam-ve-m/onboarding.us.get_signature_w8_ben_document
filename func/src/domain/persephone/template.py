@@ -1,4 +1,4 @@
-from src.domain.models.device_info.model import DeviceInfo
+from func.src.domain.models.device_info.model import DeviceInfo
 
 
 class W8ConfirmationToPersephone:
