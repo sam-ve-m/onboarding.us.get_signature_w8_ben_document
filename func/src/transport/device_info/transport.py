@@ -1,6 +1,7 @@
 import asyncio
 from http import HTTPStatus
 
+from etria_logger import Gladsheim
 from decouple import config
 from httpx import AsyncClient
 
@@ -22,6 +23,7 @@ class DeviceSecurity:
                 config("DEVICE_SECURITY_DECRYPT_DEVICE_INFO_URL"), json=body
             )
             if request_result.status_code != HTTPStatus.OK:
+                Gladsheim.error(body=body, status=request_result.status_code)
                 raise DeviceInfoRequestFailed()
         device_info_decrypted = request_result.json().get("deviceInfo")
         return device_info_decrypted
@@ -36,6 +38,7 @@ class DeviceSecurity:
                 config("DEVICE_SECURITY_DEVICE_ID_URL"), json=body
             )
             if request_result.status_code != HTTPStatus.OK:
+                Gladsheim.error(body=body, status=request_result.status_code)
                 raise DeviceInfoRequestFailed()
         device_id = request_result.json().get("deviceID")
         return device_id
